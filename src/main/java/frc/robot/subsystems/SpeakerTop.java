@@ -7,14 +7,14 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /**
- * The robot's drivetrain.
+ * The scoring mechanism for the speaker.
  */
-public class Drivetrain extends SubsystemBase {
+public class SpeakerTop extends SubsystemBase {
 
   // Instance variables go here...
 
-  /** Creates a new Drivetrain. */
-  public Drivetrain() {
+  /** Creates a new Shooter. */
+  public SpeakerTop() {
     // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
   }
 
