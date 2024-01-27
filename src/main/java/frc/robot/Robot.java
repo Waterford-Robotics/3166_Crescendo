@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.AmpTop;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -13,7 +15,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot {
-
+  XboxController climbButton = new XboxController(0);
+  AmpTop amp = new AmpTop();
   // Instance variables go here...
   
   @Override
@@ -32,7 +35,13 @@ public class Robot extends TimedRobot {
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    if(climbButton.getRawButton(2)){
+      amp.shoot();
+    }else if(climbButton.getRawButton(2)==false){
+      amp.shootfinish();
+    }
+  }
 
   @Override
   public void disabledInit() {}
