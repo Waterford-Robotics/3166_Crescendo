@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.AmpTop;
 import frc.robot.subsystems.Climber;
 
 /**
@@ -19,6 +20,7 @@ public class Robot extends TimedRobot {
   // Instance variables go here...
   XboxController climbButton = new XboxController(0);
   Climber climber = new Climber(); 
+  AmpTop amp =new AmpTop();
   @Override
   public void robotInit() {}
 
@@ -40,6 +42,11 @@ public class Robot extends TimedRobot {
       climber.climb();
     }else if(climbButton.getRawButton(1)==false){
       climber.stop();
+    }
+    if(climbButton.getRawButton(2)){
+      amp.shoot();
+    }else if(climbButton.getRawButton(2)==false){
+      amp.shootfinish();
     }
   }
 
