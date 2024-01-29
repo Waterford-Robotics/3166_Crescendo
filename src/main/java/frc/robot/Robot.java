@@ -15,7 +15,7 @@ import frc.robot.subsystems.AmpTop;
  * project.
  */
 public class Robot extends TimedRobot {
-  XboxController climbButton = new XboxController(0);
+  XboxController shootButton = new XboxController(Constants.controllerPortID);
   AmpTop amp = new AmpTop();
   // Instance variables go here...
   
@@ -36,10 +36,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if(climbButton.getRawButton(2)){
+    if(shootButton.getRawButton(Constants.shootButtonID)){
       amp.shoot();
-    }else if(climbButton.getRawButton(2)==false){
-      amp.shootfinish();
+    }else{
+      amp.stop();
     }
   }
 
