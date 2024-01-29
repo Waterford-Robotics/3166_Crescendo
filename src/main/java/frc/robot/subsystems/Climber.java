@@ -5,8 +5,8 @@ import frc.robot.Constants;
 
 public final class Climber {
     
-    Talon m_lcmotor = new Talon(Constants.kLcmotorID);
-    Talon m_rcmotor = new Talon(Constants.kRcmotorID);
+    private Talon m_lcmotor = new Talon(Constants.kLcmotorID);
+    private Talon m_rcmotor = new Talon(Constants.kRcmotorID);
 
     public void climb(){
         m_lcmotor.set(Constants.kClimbSpeed);
