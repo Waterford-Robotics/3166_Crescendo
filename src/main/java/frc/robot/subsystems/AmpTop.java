@@ -9,7 +9,7 @@ public final class AmpTop {
   
     public void shoot (){
       m_beltmotor.set(Constants.kShootSpeed);
-      m_shaftmotor.set(Constants.kShootSpeed);
+      m_shaftmotor.set(-Constants.kShootSpeed);
     }
     public void stop (){
       m_beltmotor.set(0);
