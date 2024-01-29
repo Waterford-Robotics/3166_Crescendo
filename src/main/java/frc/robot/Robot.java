@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.SpeakerTop;
 
 /**
