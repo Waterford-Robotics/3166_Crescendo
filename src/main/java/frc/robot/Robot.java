@@ -18,9 +18,8 @@ import frc.robot.subsystems.Climber;
 public class Robot extends TimedRobot {
 
   // Instance variables go here...
-  XboxController climbButton = new XboxController(0);
+  XboxController climbButton = new XboxController(Constants.kControllerID);
   Climber climber = new Climber(); 
-  AmpTop amp =new AmpTop();
   @Override
   public void robotInit() {}
 
@@ -38,17 +37,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if(climbButton.getRawButton(1)){
+    if(climbButton.getRawButton(Constants.kClimbButtonID)){
       climber.climb();
-    }else if(climbButton.getRawButton(1)==false){
+    }else if(climbButton.getRawButton(Constants.kClimbButtonID)==false){
       climber.stop();
     }
-    if(climbButton.getRawButton(2)){
-      amp.shoot();
-    }else if(climbButton.getRawButton(2)==false){
-      amp.shootfinish();
-    }
-  }
+  } 
 
   @Override
   public void disabledInit() {}
