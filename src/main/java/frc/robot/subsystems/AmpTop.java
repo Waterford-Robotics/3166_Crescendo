@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
 public final class AmpTop {
-    Talon m_beltmotor = new Talon(Constants.kBeltmotorID);
-    Talon m_shaftmotor = new Talon(Constants.kShaftmotorID);
+    private Talon m_beltmotor = new Talon(Constants.kBeltmotorID);
+    private Talon m_shaftmotor = new Talon(Constants.kShaftmotorID);
   
     public void shoot (){
       m_beltmotor.set(Constants.kShootSpeed);
