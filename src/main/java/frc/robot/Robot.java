@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -13,11 +15,18 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot {
+  private XboxController drivController = new XboxController(0);
+  public Drivetrain drivetrain = new Drivetrain();
+
 
   // Instance variables go here...
   
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+
+    drivetrain.m_rightMotors.setInverted(true);
+    
+  }
 
   @Override
   public void robotPeriodic() {}
@@ -32,7 +41,9 @@ public class Robot extends TimedRobot {
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    drivetrain.m_DifferentialDrive.arcadeDrive(Constants.kMoveSpeed*drivController.getLeftY(), -Constants.kMoveSpeed*drivController.getRightX());
+  }
 
   @Override
   public void disabledInit() {}
