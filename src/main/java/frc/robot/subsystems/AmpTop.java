@@ -4,18 +4,27 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants;
 
-/**
- * The scoring mechanism for the amp.
- */
 public class AmpTop extends SubsystemBase {
-
-  // Instance variables go here...
-
-  /** Creates a new AmpTop. */
+  private CANSparkMax m_ampShooter1 = new CANSparkMax(DriveConstants.kAmpShooterID1, MotorType.kBrushless);
+  private CANSparkMax m_ampShooter2 = new CANSparkMax(DriveConstants.kAmpShooterID2, MotorType.kBrushless);
+  private MotorControllerGroup m_shooters = new MotorControllerGroup(m_ampShooter1, m_ampShooter2);
+  /** Creates a new AmpShooterSubsystem. */
   public AmpTop() {
-    // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
+    m_ampShooter2.setInverted(true);
+  }
+
+  public void shoot(){
+    m_shooters.set(DriveConstants.kAmpShooterSpeed);
+  }
+  public void stop(){
+    m_shooters.set(0);
   }
 
   @Override
