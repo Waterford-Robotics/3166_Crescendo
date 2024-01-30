@@ -27,7 +27,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    new JoystickButton(m_driverController, Button.kY.value)
+    new JoystickButton(m_driverController, Button.kB.value)
     .whileTrue(new RunCommand(
         () -> m_ampShooter.shoot(), 
         m_ampShooter));
