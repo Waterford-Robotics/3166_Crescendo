@@ -4,18 +4,20 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants;
 
-/**
- * The climbing mechanism.
- */
 public class Climber extends SubsystemBase {
+  private WPI_TalonFX m_climbMotor = new WPI_TalonFX(DriveConstants.kClimberID);
+  public Climber() {}
 
-  // Instance variables go here...
-
-  /** Creates a new Climber. */
-  public Climber() {
-    // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
+  public void climb(){
+    m_climbMotor.set(DriveConstants.kClimberSpeed);
+  }
+  public void stop(){
+    m_climbMotor.set(0);
   }
 
   @Override
