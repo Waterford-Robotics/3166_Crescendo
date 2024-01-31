@@ -20,22 +20,22 @@ public class RobotContainer {
   // Instance variables go here. This typically includes all robot systems and controllers.
 
   public RobotContainer() {
-    m_speakerShooter.setDefaultCommand(
-      new RunCommand(() -> m_speakerShooter.stop(), m_speakerShooter)
-    );
-
     configureBindings();
   }
 
   private void configureBindings() {
-    new JoystickButton(m_driverController, Button.kY.value)
-    .whileTrue(new RunCommand(
+    new JoystickButton(m_driverController, OIConstants.kAButton)
+      .whileTrue(new RunCommand(
         () -> m_speakerShooter.shoot(), 
-        m_speakerShooter));
-    new JoystickButton(m_driverController, Button.kA.value)
-    .whileTrue(new RunCommand(
+        m_speakerShooter).finallyDo((interrupted) -> {
+          m_speakerShooter.stop();
+        }));
+    new JoystickButton(m_driverController, OIConstants.kYButton)
+      .whileTrue(new RunCommand(
         () -> m_speakerShooter.intake(), 
-        m_speakerShooter));
+        m_speakerShooter).finallyDo((interrupted) -> {
+          m_speakerShooter.stop();
+        }));
   }
 
   public Command getAutonomousCommand() {
