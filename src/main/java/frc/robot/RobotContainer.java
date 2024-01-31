@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -20,18 +19,17 @@ public class RobotContainer {
   // Instance variables go here. This typically includes all robot systems and controllers.
 
   public RobotContainer() {
-    m_climber.setDefaultCommand(
-        new RunCommand(() -> m_climber.stop(), m_climber)
-    );
     configureBindings();
   }
 
   private void configureBindings() {
-    new JoystickButton(m_driverController, Button.kX.value)
-        .whileTrue(new RunCommand(
-            () -> m_climber.climb(), 
-            m_climber));  }
-
+    new JoystickButton(m_driverController, OIConstants.kXButton)
+    .whileTrue(new RunCommand(
+        () -> m_climber.climb(), 
+        m_climber).finallyDo((interrupted) -> {
+          m_climber.stop();
+        }));
+  }
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
   }
