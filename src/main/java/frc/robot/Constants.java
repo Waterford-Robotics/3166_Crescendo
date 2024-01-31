@@ -8,8 +8,8 @@ public final class Constants {
   public static final class DriveConstants {}
 
   public static final class AmpConstants {
-    public static final int kAmpShooterID1 = 19;
-    public static final int kAmpShooterID2 = 20;
+    public static final int kAmpShooterID1 = 20;
+    public static final int kAmpShooterID2 = 21;
     public static final double kAmpShooterSpeed = 0.65;
 
   }
