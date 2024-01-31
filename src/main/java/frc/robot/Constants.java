@@ -8,8 +8,7 @@ public final class Constants {
   public static final class DriveConstants {}
 
   public static final class SpeakerConstants {
-    public static final int kSpeakerShooterID1 = 19;
-    public static final int kSpeakerShooterID2 = 20;
+    public static final int kSpeakerShooterID = 20;
     public static final int kSpeakerKickerID = 21;
     public static final double kShooterSpeed = 0.65;
     public static final double kKickerSpeed = 0.55;

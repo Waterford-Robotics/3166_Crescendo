@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SpeakerConstants;
 
 public class SpeakerTop extends SubsystemBase {
-  private CANSparkMax m_speakerShooter1 = new CANSparkMax(SpeakerConstants.kSpeakerShooterID1, MotorType.kBrushless);
+  private CANSparkMax m_speakerShooter1 = new CANSparkMax(SpeakerConstants.kSpeakerShooterID, MotorType.kBrushless);
   private CANSparkMax m_speakerKicker = new CANSparkMax(SpeakerConstants.kSpeakerKickerID, MotorType.kBrushless);
   /** Creates a new AmpShooterSubsystem. */
   public SpeakerTop() {}
