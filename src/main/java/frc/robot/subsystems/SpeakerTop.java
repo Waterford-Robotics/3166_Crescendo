@@ -8,25 +8,25 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.SpeakerConstants;
 
 public class SpeakerTop extends SubsystemBase {
-  private CANSparkMax m_speakerShooter1 = new CANSparkMax(DriveConstants.kSpeakerShooterID1, MotorType.kBrushless);
-  private CANSparkMax m_speakerKicker = new CANSparkMax(DriveConstants.kSpeakerKickerID, MotorType.kBrushless);
+  private CANSparkMax m_speakerShooter1 = new CANSparkMax(SpeakerConstants.kSpeakerShooterID1, MotorType.kBrushless);
+  private CANSparkMax m_speakerKicker = new CANSparkMax(SpeakerConstants.kSpeakerKickerID, MotorType.kBrushless);
   /** Creates a new AmpShooterSubsystem. */
   public SpeakerTop() {}
 
   public void shoot(){
-    m_speakerShooter1.set(DriveConstants.kShooterSpeed);
-    m_speakerKicker.set(DriveConstants.kKickerSpeed);
+    m_speakerShooter1.set(SpeakerConstants.kShooterSpeed);
+    m_speakerKicker.set(SpeakerConstants.kKickerSpeed);
   }
   public void stop(){
     m_speakerShooter1.set(0);
     m_speakerKicker.set(0);
   }
   public void intake(){
-    m_speakerShooter1.set(DriveConstants.kShooterIntakeSpeed);
-    m_speakerKicker.set(DriveConstants.kKickerIntakeSpeed);
+    m_speakerShooter1.set(SpeakerConstants.kShooterIntakeSpeed);
+    m_speakerKicker.set(SpeakerConstants.kKickerIntakeSpeed);
   }
 
   @Override
