@@ -7,14 +7,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ClimberConstants;
 
 public class Climber extends SubsystemBase {
-  private WPI_TalonFX m_climbMotor = new WPI_TalonFX(DriveConstants.kClimberID);
+  private WPI_TalonFX m_climbMotor = new WPI_TalonFX(ClimberConstants.kClimberID);
   public Climber() {}
 
   public void climb(){
-    m_climbMotor.set(DriveConstants.kClimberSpeed);
+    m_climbMotor.set(ClimberConstants.kClimberSpeed);
   }
   public void stop(){
     m_climbMotor.set(0);
