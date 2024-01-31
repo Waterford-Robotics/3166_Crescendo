@@ -5,8 +5,9 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 public final class Constants {
 
   // Constants go here. It's standard to separate them into static inner classes. An example is created below.
+  public static final class DriveConstants {}
 
-  public static final class DriveConstants {
+  public static final class AmpConstants {
     public static final int kAmpShooterID1 = 19;
     public static final int kAmpShooterID2 = 20;
     public static final double kAmpShooterSpeed = 0.65;
