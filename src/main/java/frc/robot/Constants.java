@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController.Button;
+
 public final class Constants {
 
   // Constants go here. It's standard to separate them into static inner classes. An example is created below.
@@ -12,6 +14,7 @@ public final class Constants {
   }
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kBButton = Button.kB.value;
   }
   // This class cannot be initialized.
   private Constants() {}
