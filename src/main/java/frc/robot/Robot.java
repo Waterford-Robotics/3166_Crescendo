@@ -19,7 +19,7 @@ import frc.robot.subsystems.Drivetrain;
  */
 public class Robot extends TimedRobot {
   private XboxController drivController = new XboxController(0);
-  public Drivetrain drivetrain = new Drivetrain();
+  private Drivetrain drivetrain = new Drivetrain();
   private Timer m_Timer = new Timer();
 
 
@@ -29,11 +29,8 @@ public class Robot extends TimedRobot {
   // Instance variables go here...
   
   @Override
-  public void robotInit() {
-
-    drivetrain.m_rightMotors.setInverted(true);
+  public void robotInit() {}
     
-  }
 
   @Override
   public void robotPeriodic() {}
@@ -57,7 +54,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    drivetrain.m_DifferentialDrive.arcadeDrive(Constants.kMoveSpeed*drivController.getLeftY(), -Constants.kMoveSpeed*drivController.getRightX());
+    drivetrain.drive(Constants.kMoveSpeed*drivController.getRawAxis(1), -Constants.kMoveSpeed*drivController.getRawAxis(4));
   }
 
   @Override

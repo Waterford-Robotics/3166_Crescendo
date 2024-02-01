@@ -16,14 +16,22 @@ public final class Drivetrain {
   private Talon m_right2 = new Talon(1);
   private Talon m_left1 = new Talon(2);
   private Talon m_left2 = new Talon(3);
-  public MotorControllerGroup m_rightMotors = new MotorControllerGroup(m_right1, m_right2);
+  private MotorControllerGroup m_rightMotors = new MotorControllerGroup(m_right1, m_right2);
   private MotorControllerGroup m_leftMotors = new MotorControllerGroup(m_left1, m_left2);
-  public DifferentialDrive m_DifferentialDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
-  
+  private DifferentialDrive m_DifferentialDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
 
+  public Drivetrain() {
+    m_rightMotors.setInverted(true);
+  }
 
+  public void drive(double forwardSpeed, double turningSpeed) {
+    m_DifferentialDrive.arcadeDrive(forwardSpeed, turningSpeed);
+  }
 
+  public void stop() {
+    m_DifferentialDrive.arcadeDrive(0, 0);
+
+  }
 }
 
-
-  // Methods go here...
+  
