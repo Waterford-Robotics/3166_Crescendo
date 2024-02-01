@@ -4,19 +4,19 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
 public final class SpeakerTop {
-    private Talon m_doubleshootMotor = new Talon(Constants.kDoubleShootmotorID);
-    private Talon m_shootMotor = new Talon(Constants.kShootmotorID);
+    private Talon m_shootMotor1 = new Talon(Constants.kShootmotor1ID);
+    private Talon m_shootMotor2 = new Talon(Constants.kShootmotor2ID);
 
     public void shoot (){
-        m_shootMotor.set(Constants.kShootSpeed);
-        m_doubleshootMotor.set(Constants.kShootSpeed);
+        m_shootMotor1.set(Constants.kShootSpeed);
+        m_shootMotor2.set(Constants.kShootSpeed);
     }
     public void stop (){
-        m_shootMotor.set(0);
-        m_doubleshootMotor.set(0);
+        m_shootMotor1.set(0);
+        m_shootMotor2.set(0);
     }
     public void reverse (){
-        m_shootMotor.set(-Constants.kShootSpeed);
-        m_doubleshootMotor.set(-Constants.kShootSpeed);
+        m_shootMotor1.set(-Constants.kShootSpeed);
+        m_shootMotor2.set(-Constants.kShootSpeed);
     }
 }
