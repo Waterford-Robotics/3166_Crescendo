@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
+
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Drivetrain;
@@ -17,6 +20,10 @@ import frc.robot.subsystems.Drivetrain;
 public class Robot extends TimedRobot {
   private XboxController drivController = new XboxController(0);
   public Drivetrain drivetrain = new Drivetrain();
+  private Timer m_Timer = new Timer();
+
+
+
 
 
   // Instance variables go here...
@@ -32,10 +39,18 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+
+    m_Timer.start();
+    m_Timer.reset();
+
+
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic(){
+    
+  }
 
   @Override
   public void teleopInit() {}
