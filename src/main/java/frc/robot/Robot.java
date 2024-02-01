@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     if(climbButton.getRawButton(Constants.kClimbButtonID)){
       climber.climb();
-    }else if(climbButton.getRawButton(Constants.kClimbButtonID)==false){
+    }else{
       climber.stop();
     }
   } 
