@@ -4,7 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
+
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -13,26 +18,44 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot {
+  private XboxController drivController = new XboxController(0);
+  private Drivetrain drivetrain = new Drivetrain();
+  private Timer m_Timer = new Timer();
+
+
+
+
 
   // Instance variables go here...
   
   @Override
   public void robotInit() {}
+    
 
   @Override
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+
+    m_Timer.start();
+    m_Timer.reset();
+
+
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic(){
+    
+  }
 
   @Override
   public void teleopInit() {}
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    drivetrain.drive(Constants.kMoveSpeed*drivController.getRawAxis(1), -Constants.kMoveSpeed*drivController.getRawAxis(4));
+  }
 
   @Override
   public void disabledInit() {}
