@@ -18,15 +18,10 @@ import frc.robot.subsystems.Drivetrain;
  * project.
  */
 public class Robot extends TimedRobot {
-  private XboxController drivController = new XboxController(0);
-  private Drivetrain drivetrain = new Drivetrain();
-  private Timer m_Timer = new Timer();
 
-
-
-
-
-  // Instance variables go here...
+  private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
+  private Drivetrain m_drivetrain = new Drivetrain();
+  private Timer m_timer = new Timer();
   
   @Override
   public void robotInit() {}
@@ -37,16 +32,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-
-    m_Timer.start();
-    m_Timer.reset();
-
-
+    m_timer.start();
+    m_timer.reset();
   }
 
   @Override
-  public void autonomousPeriodic(){
-    
+  public void autonomousPeriodic() {
+    // Auto code goes here...
   }
 
   @Override
@@ -54,7 +46,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    drivetrain.drive(Constants.kMoveSpeed*drivController.getRawAxis(1), -Constants.kMoveSpeed*drivController.getRawAxis(4));
+    m_drivetrain.drive(Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerForwardAxisId),
+                       -Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerTurningAxisId));
   }
 
   @Override
