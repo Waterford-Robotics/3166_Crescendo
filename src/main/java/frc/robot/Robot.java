@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
+
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.AmpTop;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,32 +19,44 @@ import frc.robot.subsystems.AmpTop;
  * project.
  */
 public class Robot extends TimedRobot {
-  XboxController shootButton = new XboxController(Constants.kControllerPortID);
+  XboxController m_operatorController = new XboxController(Constants.kOperatorControllerPortID);
   AmpTop amp = new AmpTop();
   // Instance variables go here...
+
+  private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
+  private Drivetrain m_drivetrain = new Drivetrain();
+  private Timer m_timer = new Timer();
   
   @Override
   public void robotInit() {}
+    
 
   @Override
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    m_timer.start();
+    m_timer.reset();
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    // Auto code goes here...
+  }
 
   @Override
   public void teleopInit() {}
 
   @Override
   public void teleopPeriodic() {
-    if(shootButton.getRawButton(Constants.kShootButtonID)){
+    if(m_operatorController.getRawButton(Constants.kShootButtonID)){
       amp.shoot();
     }else{
       amp.stop();
     }
+    m_drivetrain.drive(Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerForwardAxisId),
+                       -Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerTurningAxisId));
   }
 
   @Override
