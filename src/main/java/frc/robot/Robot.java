@@ -4,9 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
+
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.SpeakerTop;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -17,19 +21,30 @@ import frc.robot.subsystems.SpeakerTop;
 public class Robot extends TimedRobot {
 
   // Instance variables go here...
-  XboxController shootButton = new XboxController(Constants.kControllerID);
+  XboxController shootButton = new XboxController(Constants.kOperatorControllerID);
   SpeakerTop speaker = new SpeakerTop();  
+  
+  private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
+  private Drivetrain m_drivetrain = new Drivetrain();
+  private Timer m_timer = new Timer();
+  
   @Override
   public void robotInit() {}
+    
 
   @Override
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    m_timer.start();
+    m_timer.reset();
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    // Auto code goes here...
+  }
 
   @Override
   public void teleopInit() {}
@@ -41,6 +56,8 @@ public class Robot extends TimedRobot {
     }else{
       speaker.stop();
     }
+    m_drivetrain.drive(Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerForwardAxisId),
+                       -Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerTurningAxisId));
   }
 
   @Override
