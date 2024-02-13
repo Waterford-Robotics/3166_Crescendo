@@ -4,18 +4,25 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.AmpConstants;
 
-/**
- * The scoring mechanism for the amp.
- */
 public class AmpTop extends SubsystemBase {
-
-  // Instance variables go here...
-
-  /** Creates a new AmpTop. */
+  private CANSparkMax m_shooters = new CANSparkMax(AmpConstants.kAmpShooterID1, MotorType.kBrushless);
+  /** Creates a new AmpShooterSubsystem. */
   public AmpTop() {
-    // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
+
+  }
+
+  public void shoot(){
+    m_shooters.set(AmpConstants.kAmpShooterSpeed);
+  }
+  public void stop(){
+    m_shooters.set(0);
   }
 
   @Override
