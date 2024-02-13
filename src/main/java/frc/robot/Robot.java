@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.AmpTop;
 import frc.robot.subsystems.Drivetrain;
 
 /**
@@ -18,6 +19,9 @@ import frc.robot.subsystems.Drivetrain;
  * project.
  */
 public class Robot extends TimedRobot {
+  XboxController m_operatorController = new XboxController(Constants.kOperatorControllerPortID);
+  AmpTop amp = new AmpTop();
+  // Instance variables go here...
 
   private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
   private Drivetrain m_drivetrain = new Drivetrain();
@@ -46,6 +50,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    if(m_operatorController.getRawButton(Constants.kShootButtonID)){
+      amp.shoot();
+    }else{
+      amp.stop();
+    }
     m_drivetrain.drive(Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerForwardAxisId),
                        -Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerTurningAxisId));
   }

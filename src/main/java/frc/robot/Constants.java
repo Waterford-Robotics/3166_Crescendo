@@ -2,6 +2,14 @@ package frc.robot;
 
 public final class Constants {
 
+  // Constants go here...
+  public static final int kOperatorControllerPortID = 1;
+  public static final int kShootButtonID = 2;
+
+  public static final double kShootSpeed = .7;
+  
+  public static final int kShaftmotorID = 6;
+  public static final int kBeltmotorID = 7;
   public static final int kRight1DriveMotorId = 0;
   public static final int kRight2DriveMotorId = 1;
   public static final int kLeft1DriveMotorId = 2;
