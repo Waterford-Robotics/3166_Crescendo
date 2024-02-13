@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.AmpTop;
 import frc.robot.subsystems.Drivetrain;
 
 /**
@@ -21,10 +22,14 @@ import frc.robot.subsystems.Drivetrain;
 public class Robot extends TimedRobot {
 
   // Instance variables go here...
-  XboxController climbButton = new XboxController(Constants.kOperatorControllerID);
+  
   Climber climber = new Climber(); 
-  private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
+  
   private Drivetrain m_drivetrain = new Drivetrain();
+  private AmpTop m_ampTop = new AmpTop();
+
+  private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
+  private XboxController m_operatorController = new XboxController(Constants.kOperatorControllerPort);
   private Timer m_timer = new Timer();
   
   @Override
@@ -50,12 +55,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if(climbButton.getRawButton(Constants.kClimbButtonID)){
+    if(m_operatorController.getRawButton(Constants.kClimbButtonID)){
       climber.climb();
     }else{
       climber.stop();
     }
    
+    if(m_operatorController.getRawButton(Constants.kShootButtonId)){
+      m_ampTop.shoot();
+    }else{
+      m_ampTop.stop();
+    }
     m_drivetrain.drive(Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerForwardAxisId),
                        -Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerTurningAxisId));
   }
