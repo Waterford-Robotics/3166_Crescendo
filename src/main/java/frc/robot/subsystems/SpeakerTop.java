@@ -4,21 +4,21 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SpeakerConstants;
 
 public class SpeakerTop extends SubsystemBase {
-  private CANSparkMax m_speakerShooter1 = new CANSparkMax(SpeakerConstants.kSpeakerShooterID1, MotorType.kBrushless);
-  private CANSparkMax m_speakerShooter2 = new CANSparkMax(SpeakerConstants.kSpeakerShooterID2, MotorType.kBrushless);
-  private CANSparkMax m_speakerKicker = new CANSparkMax(SpeakerConstants.kSpeakerKickerID, MotorType.kBrushless);
+  private TalonFX m_speakerShooter1 = new TalonFX(SpeakerConstants.kSpeakerShooterID1);
+  private TalonFX m_speakerShooter2 = new TalonFX(SpeakerConstants.kSpeakerShooterID2);
+  private TalonFX m_speakerKicker = new TalonFX(SpeakerConstants.kSpeakerKickerID);
+  private Follower m_speakerShooter2Follower = new Follower(SpeakerConstants.kSpeakerShooterID1, true);
   /** Creates a new AmpShooterSubsystem. */
   public SpeakerTop() {}
 
   public void shoot(){
-    m_speakerShooter2.follow(m_speakerShooter1);
     m_speakerShooter1.set(SpeakerConstants.kShooterSpeed);
     m_speakerKicker.set(SpeakerConstants.kKickerSpeed);
   }
@@ -33,6 +33,6 @@ public class SpeakerTop extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    m_speakerShooter2.setControl(m_speakerShooter2Follower);
   }
 }

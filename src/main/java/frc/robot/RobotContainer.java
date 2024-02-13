@@ -25,13 +25,13 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    new JoystickButton(m_driverController, OIConstants.kAButton)
+    new JoystickButton(m_driverController, OIConstants.kShootButton)
       .whileTrue(new RunCommand(
         () -> m_speakerShooter.shoot(), 
         m_speakerShooter).finallyDo((interrupted) -> {
           m_speakerShooter.stop();
         }));
-    new JoystickButton(m_driverController, OIConstants.kYButton)
+    new JoystickButton(m_driverController, OIConstants.kIntakeButton)
       .whileTrue(new RunCommand(
         () -> m_speakerShooter.intake(), 
         m_speakerShooter).finallyDo((interrupted) -> {

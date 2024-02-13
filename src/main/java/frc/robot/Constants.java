@@ -19,8 +19,8 @@ public final class Constants {
   
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
-    public static final int kAButton = Button.kA.value;
-    public static final int kYButton = Button.kY.value;
+    public static final int kShootButton = Button.kA.value;
+    public static final int kIntakeButton = Button.kY.value;
   }
   // This class cannot be initialized.
   private Constants() {}
