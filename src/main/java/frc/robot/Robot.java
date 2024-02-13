@@ -21,7 +21,7 @@ import frc.robot.subsystems.Drivetrain;
 public class Robot extends TimedRobot {
 
   private Drivetrain m_drivetrain = new Drivetrain();
-  AmpTop m_ampTop = new AmpTop();
+  private AmpTop m_ampTop = new AmpTop();
 
   private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
   private XboxController m_operatorController = new XboxController(Constants.kOperatorControllerPort);
