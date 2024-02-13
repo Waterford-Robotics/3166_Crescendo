@@ -19,12 +19,12 @@ import frc.robot.subsystems.Drivetrain;
  * project.
  */
 public class Robot extends TimedRobot {
-  XboxController m_operatorController = new XboxController(Constants.kOperatorControllerPortID);
-  AmpTop amp = new AmpTop();
-  // Instance variables go here...
+
+  private Drivetrain m_drivetrain = new Drivetrain();
+  AmpTop m_ampTop = new AmpTop();
 
   private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
-  private Drivetrain m_drivetrain = new Drivetrain();
+  private XboxController m_operatorController = new XboxController(Constants.kOperatorControllerPort);
   private Timer m_timer = new Timer();
   
   @Override
@@ -50,10 +50,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if(m_operatorController.getRawButton(Constants.kShootButtonID)){
-      amp.shoot();
+    if(m_operatorController.getRawButton(Constants.kShootButtonId)){
+      m_ampTop.shoot();
     }else{
-      amp.stop();
+      m_ampTop.stop();
     }
     m_drivetrain.drive(Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerForwardAxisId),
                        -Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerTurningAxisId));
