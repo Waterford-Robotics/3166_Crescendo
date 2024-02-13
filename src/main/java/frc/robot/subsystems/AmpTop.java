@@ -4,15 +4,13 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.AmpConstants;
 
 public class AmpTop extends SubsystemBase {
-  private CANSparkMax m_shooters = new CANSparkMax(AmpConstants.kAmpShooterID1, MotorType.kBrushless);
+  private TalonFX m_shooters = new TalonFX(AmpConstants.kAmpShooterID1);
   /** Creates a new AmpShooterSubsystem. */
   public AmpTop() {
 
