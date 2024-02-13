@@ -4,18 +4,31 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.SpeakerConstants;
 
-/**
- * The scoring mechanism for the speaker.
- */
 public class SpeakerTop extends SubsystemBase {
+  private CANSparkMax m_speakerShooter1 = new CANSparkMax(SpeakerConstants.kSpeakerShooterID1, MotorType.kBrushless);
+  private CANSparkMax m_speakerShooter2 = new CANSparkMax(SpeakerConstants.kSpeakerShooterID2, MotorType.kBrushless);
+  private CANSparkMax m_speakerKicker = new CANSparkMax(SpeakerConstants.kSpeakerKickerID, MotorType.kBrushless);
+  /** Creates a new AmpShooterSubsystem. */
+  public SpeakerTop() {}
 
-  // Instance variables go here...
-
-  /** Creates a new Shooter. */
-  public SpeakerTop() {
-    // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
+  public void shoot(){
+    m_speakerShooter2.follow(m_speakerShooter1);
+    m_speakerShooter1.set(SpeakerConstants.kShooterSpeed);
+    m_speakerKicker.set(SpeakerConstants.kKickerSpeed);
+  }
+  public void stop(){
+    m_speakerShooter1.set(0);
+    m_speakerKicker.set(0);
+  }
+  public void intake(){
+    m_speakerShooter1.set(SpeakerConstants.kShooterIntakeSpeed);
+    m_speakerKicker.set(SpeakerConstants.kKickerIntakeSpeed);
   }
 
   @Override

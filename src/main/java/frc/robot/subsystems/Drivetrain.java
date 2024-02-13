@@ -17,7 +17,7 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
     // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
   }
-
+  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {}
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
