@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-
+    
 
     if(intakeButton.getRawButton(Constants.kIntakeButtonID)){
       speaker.intake();
