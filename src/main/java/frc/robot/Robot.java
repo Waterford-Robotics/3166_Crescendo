@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpeakerTop;
 
 /**
@@ -18,7 +19,10 @@ public class Robot extends TimedRobot {
 
   // Instance variables go here...
   XboxController shootButton = new XboxController(Constants.kControllerID);
-  SpeakerTop speaker = new SpeakerTop();  
+  XboxController intakeButton = new XboxController(Constants.kControllerID);
+  SpeakerTop speaker = new SpeakerTop();
+  Drivetrain drivetrain = new Drivetrain(); 
+
   @Override
   public void robotInit() {}
 
@@ -36,12 +40,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if(shootButton.getRawButton(Constants.kShootButtonID)){
+
+
+    if(intakeButton.getRawButton(Constants.kIntakeButtonID)){
+      speaker.intake();
+    }else if(shootButton.getRawButton(Constants.kShootButtonID)){
       speaker.shoot();
-    }else{
+    }else 
       speaker.stop();
     }
-  }
+  
 
   @Override
   public void disabledInit() {}
