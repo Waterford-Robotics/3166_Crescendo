@@ -18,9 +18,7 @@ import frc.robot.subsystems.SpeakerTop;
 public class Robot extends TimedRobot {
 
   // Instance variables go here...
-  XboxController m_shootButton = new XboxController(Constants.kControllerID);
-  XboxController m_intakeButton = new XboxController(Constants.kControllerID);
-  XboxController m_drivController = new XboxController(Constants.kControllerID);
+  XboxController m_driveController = new XboxController(Constants.kControllerID);
   SpeakerTop m_speaker = new SpeakerTop();
   Drivetrain m_drivetrain = new Drivetrain(); 
 
@@ -41,12 +39,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    m_drivetrain.drive(Constants.kMoveSpeed*m_drivController.getRawAxis(1), -Constants.kMoveSpeed*m_drivController.getRawAxis(4));
+    m_drivetrain.drive(Constants.kMoveSpeed*m_driveController.getRawAxis(1), -Constants.kMoveSpeed*m_driveController.getRawAxis(4));
 
 
-    if(m_intakeButton.getRawButton(Constants.kIntakeButtonID)){
+    if(m_driveController.getRawButton(Constants.kIntakeButtonID)){
       m_speaker.intake();
-    }else if(m_shootButton.getRawButton(Constants.kShootButtonID)){
+    }else if(m_driveController.getRawButton(Constants.kShootButtonID)){
       m_speaker.shoot();
     }else 
       m_speaker.stop();
