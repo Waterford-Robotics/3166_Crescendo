@@ -5,6 +5,7 @@ public final class Constants {
   // Constants go here...
   public static final int kShootmotor1ID = 9;
   public static final int kShootmotor2ID =8;
+  public static final int kShootmotor3ID =7;
   
 
   
