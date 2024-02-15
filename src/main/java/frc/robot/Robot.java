@@ -20,6 +20,7 @@ public class Robot extends TimedRobot {
   // Instance variables go here...
   XboxController shootButton = new XboxController(Constants.kControllerID);
   XboxController intakeButton = new XboxController(Constants.kControllerID);
+  XboxController drivController = new XboxController(Constants.kControllerID);
   SpeakerTop speaker = new SpeakerTop();
   Drivetrain drivetrain = new Drivetrain(); 
 
@@ -40,7 +41,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    
+    drivetrain.drive(Constants.kMoveSpeed*drivController.getRawAxis(1), -Constants.kMoveSpeed*drivController.getRawAxis(4));
+
 
     if(intakeButton.getRawButton(Constants.kIntakeButtonID)){
       speaker.intake();
