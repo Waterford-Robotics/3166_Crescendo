@@ -3,8 +3,8 @@ package frc.robot;
 public final class Constants {
 
   // Constants go here...
-  public static final int kLcmotorID = 6;
-  public static final int kRcmotorID = 7;
+  public static final int kLcmotorID = 4;
+  public static final int kRcmotorID = 5;
   
   public static final int kRight1DriveMotorId = 0;
   public static final int kRight2DriveMotorId = 1;
