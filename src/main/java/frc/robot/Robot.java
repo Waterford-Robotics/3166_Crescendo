@@ -54,12 +54,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if(m_operatorController.getRawButton(Constants.kShootButtonID)){
+    if(m_operatorController.getRawButton(Constants.kSpeakShootButtonID)){
       speaker.shoot();
     }else{
       speaker.stop();
     }
-    if(m_operatorController.getRawButton(Constants.kShootButtonId)){
+    if(m_operatorController.getRawButton(Constants.kAmpShootButtonId)){
       m_ampTop.shoot();
     }else{
       m_ampTop.stop();

@@ -6,7 +6,7 @@ import frc.robot.Constants;
 public final class SpeakerTop {
     private Talon m_shootMotor1 = new Talon(Constants.kShootmotor1ID);
     private Talon m_shootMotor2 = new Talon(Constants.kShootmotor2ID);
-    private Talon m_shootMotor3 = new Talon(Constants.kShootmotor3ID);
+    private Talon m_shootMotor3 = new Talon(Constants.kKickerShootmotorID);
 
     public void shoot (){
         m_shootMotor1.set(Constants.kShootSpeed);
