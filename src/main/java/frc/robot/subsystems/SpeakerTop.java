@@ -10,8 +10,8 @@ public final class SpeakerTop {
 
     public void shoot (){
         m_shootMotor1.set(Constants.kShootSpeed);
-        m_shootMotor2.set(Constants.kShootSpeed);
-        m_shootMotor3.set(Constants.kShootSpeed);
+        m_shootMotor2.set(-Constants.kShootSpeed);
+        m_shootMotor3.set(Constants.kSpeakKickerShootSpeed);
     }
     public void stop (){
         m_shootMotor1.set(0);
@@ -20,7 +20,7 @@ public final class SpeakerTop {
     }
     public void reverse (){
         m_shootMotor1.set(-Constants.kShootSpeed);
-        m_shootMotor2.set(-Constants.kShootSpeed);
-        m_shootMotor3.set(-Constants.kShootSpeed);
+        m_shootMotor2.set(Constants.kShootSpeed);
+        m_shootMotor3.set(-Constants.kSpeakKickerShootSpeed);
     }
 }
