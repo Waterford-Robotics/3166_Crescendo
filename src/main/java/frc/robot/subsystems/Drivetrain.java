@@ -1,9 +1,6 @@
 package frc.robot.subsystems;
 
-//import java.util.Timer;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
@@ -17,12 +14,13 @@ public final class Drivetrain {
   private Talon m_right2 = new Talon(Constants.kRight2DriveMotorId);
   private Talon m_left1 = new Talon(Constants.kLeft1DriveMotorId);
   private Talon m_left2 = new Talon(Constants.kLeft2DriveMotorId);
-  private MotorControllerGroup m_rightMotors = new MotorControllerGroup(m_right1, m_right2);
-  private MotorControllerGroup m_leftMotors = new MotorControllerGroup(m_left1, m_left2);
-  private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_leftMotors, m_rightMotors);
+  private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_left1::set, m_right1::set);
 
   public Drivetrain() {
-    m_rightMotors.setInverted(true);
+    m_right1.setInverted(true);
+    m_right1.addFollower(m_right2);
+
+    m_left1.addFollower(m_left2);
   }
 
   public void drive(double forwardSpeed, double turningSpeed) {
