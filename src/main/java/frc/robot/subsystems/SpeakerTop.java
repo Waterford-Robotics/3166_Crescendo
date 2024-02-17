@@ -9,8 +9,8 @@ public final class SpeakerTop {
     private Talon m_shootMotor3 = new Talon(Constants.kKickerShootmotorID);
 
     public void shoot (){
-        m_shootMotor1.set(Constants.kShootSpeed);
-        m_shootMotor2.set(-Constants.kShootSpeed);
+        m_shootMotor1.set(Constants.kSpeakShootSpeed);
+        m_shootMotor2.set(-Constants.kSpeakShootSpeed);
         m_shootMotor3.set(Constants.kSpeakKickerShootSpeed);
     }
     public void stop (){
@@ -19,8 +19,8 @@ public final class SpeakerTop {
         m_shootMotor3.set(0);
     }
     public void reverse (){
-        m_shootMotor1.set(-Constants.kShootSpeed);
-        m_shootMotor2.set(Constants.kShootSpeed);
+        m_shootMotor1.set(-Constants.kSpeakShootSpeed);
+        m_shootMotor2.set(Constants.kSpeakShootSpeed);
         m_shootMotor3.set(-Constants.kSpeakKickerShootSpeed);
     }
 }
