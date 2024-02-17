@@ -4,10 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Timer;
+
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpeakerTop;
+import frc.robot.subsystems.AmpTop;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,38 +23,55 @@ import frc.robot.subsystems.SpeakerTop;
 public class Robot extends TimedRobot {
 
   // Instance variables go here...
-  XboxController m_driveController = new XboxController(Constants.kControllerID);
-  SpeakerTop m_speaker = new SpeakerTop();
-  Drivetrain m_drivetrain = new Drivetrain(); 
+  SpeakerTop m_speaker = new SpeakerTop(); 
 
+  private Drivetrain m_drivetrain = new Drivetrain();
+  private AmpTop m_ampTop = new AmpTop();
+
+  private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
+  private XboxController m_operatorController = new XboxController(Constants.kOperatorControllerPort);
+  private Timer m_timer = new Timer();
+  
   @Override
   public void robotInit() {}
+    
 
   @Override
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    m_timer.start();
+    m_timer.reset();
+  }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    // Auto code goes here...
+  }
 
   @Override
   public void teleopInit() {}
 
   @Override
   public void teleopPeriodic() {
-    m_drivetrain.drive(Constants.kMoveSpeed*m_driveController.getRawAxis(1), -Constants.kMoveSpeed*m_driveController.getRawAxis(4));
 
-
-    if(m_driveController.getRawButton(Constants.kIntakeButtonID)){
+    if(m_operatorController.getRawButton(Constants.kIntakeButtonID)){
       m_speaker.intake();
-    }else if(m_driveController.getRawButton(Constants.kShootButtonID)){
+    }else if(m_operatorController.getRawButton(Constants.kShootButtonID)){
       m_speaker.shoot();
-    }else 
+    }else{
       m_speaker.stop();
     }
   
+    if(m_operatorController.getRawButton(Constants.kShootButtonId)){
+      m_ampTop.shoot();
+    }else{
+      m_ampTop.stop();
+    }
+    m_drivetrain.drive(Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerForwardAxisId),
+                       -Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerTurningAxisId));
+  }
 
   @Override
   public void disabledInit() {}
