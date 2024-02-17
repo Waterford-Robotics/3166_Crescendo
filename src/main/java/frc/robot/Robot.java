@@ -56,6 +56,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     if(m_operatorController.getRawButton(Constants.kSpeakShootButtonID)){
       speaker.shoot();
+    }else if(m_operatorController.getRawButton(1)){
+      speaker.reverse();
     }else{
       speaker.stop();
     }
