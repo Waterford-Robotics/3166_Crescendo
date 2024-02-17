@@ -61,7 +61,7 @@ public class Robot extends TimedRobot {
       climber.stop();
     }
    
-    if(m_operatorController.getRawButton(Constants.kShootButtonId)){
+    if(m_operatorController.getRawButton(Constants.kAmpShootButtonId)){
       m_ampTop.shoot();
     }else{
       m_ampTop.stop();
