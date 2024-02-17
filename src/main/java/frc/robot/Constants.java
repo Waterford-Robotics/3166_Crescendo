@@ -19,7 +19,6 @@ public final class Constants {
   public static final int kDriverControllerTurningAxisId = 4;
 
   public static final int kOperatorControllerPort = 1;
-  public static final int kShootButtonId = 2;
 
   public static final double kIntakeSpeed = .6; 
   public static final double kShootSpeed = .75;

@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
       m_speaker.stop();
     }
   
-    if(m_operatorController.getRawButton(Constants.kShootButtonId)){
+    if(m_operatorController.getRawButton(Constants.kShootButtonID)){
       m_ampTop.shoot();
     }else{
       m_ampTop.stop();
