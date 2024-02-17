@@ -55,14 +55,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if(m_operatorController.getRawButton(Constants.kClimbButtonID)){
+    if(m_operatorController.getLeftTriggerAxis()!=0){
       climber.climb();
+    }else if(m_operatorController.getRightTriggerAxis()!=0){
+      climber.descend();
     }else{
       climber.stop();
     }
    
     if(m_operatorController.getRawButton(Constants.kAmpShootButtonId)){
       m_ampTop.shoot();
+    }else if(m_operatorController.getRawButton(4)){
+      m_ampTop.reverse();
     }else{
       m_ampTop.stop();
     }
