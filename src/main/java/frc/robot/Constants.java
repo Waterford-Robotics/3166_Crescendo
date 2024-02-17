@@ -22,7 +22,7 @@ public final class Constants {
 
   public static final double kMoveSpeed = 0.7;
   public static final double kShootSpeed = 0.8;
-  public static final double kSpeakShootSpeed = 1.0;
+  public static final double kSpeakShootSpeed = 0.9;
   public static final double kSpeakKickerShootSpeed = 0.8;
 
   public static final int kAmpShootButtonId = 2;

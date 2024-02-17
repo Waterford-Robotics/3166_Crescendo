@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
   private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
   private XboxController m_operatorController = new XboxController(Constants.kOperatorControllerPort);
   private Timer m_timer = new Timer();
+  private Timer m_ktimer = new Timer();
   
   @Override
   public void robotInit() {}
