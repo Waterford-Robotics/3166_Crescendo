@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.SpeakerTop;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.AmpTop;
 import frc.robot.subsystems.Drivetrain;
 
@@ -23,6 +24,8 @@ public class Robot extends TimedRobot {
 
   // Instance variables go here...
   SpeakerTop speaker = new SpeakerTop();  
+  
+  Climber climber = new Climber(); 
   
   private Drivetrain m_drivetrain = new Drivetrain();
   private AmpTop m_ampTop = new AmpTop();
@@ -67,8 +70,18 @@ public class Robot extends TimedRobot {
     if(m_operatorController.getRawButton(Constants.kSpeakIntakeButtonID)){
       speaker.reverse();
     }
+    if(m_operatorController.getLeftTriggerAxis()!=0){
+      climber.climb();
+    }else if(m_operatorController.getRightTriggerAxis()!=0){
+      climber.descend();
+    }else{
+      climber.stop();
+    }
+   
     if(m_operatorController.getRawButton(Constants.kAmpShootButtonId)){
       m_ampTop.shoot();
+    }else if(m_operatorController.getRawButton(4)){
+      m_ampTop.reverse();
     }else{
       m_ampTop.stop();
     }

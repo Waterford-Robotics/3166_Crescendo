@@ -12,4 +12,7 @@ public final class AmpTop {
     public void stop() {
       m_shaftmotor.set(0);
     }
+    public void reverse() {
+      m_shaftmotor.set(Constants.kShootSpeed);
+    }
 }

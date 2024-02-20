@@ -11,6 +11,8 @@ public final class Constants {
   public static final int kKickerShootmotorID =7;
   
   public static final int kAmpShaftmotorId = 6;
+  public static final int kLcmotorID = 4;
+  public static final int kRcmotorID = 5;
   
   public static final int kRight1DriveMotorId = 0;
   public static final int kRight2DriveMotorId = 1;
@@ -27,6 +29,14 @@ public final class Constants {
 
   public static final int kAmpShootButtonId = 2;
   public static final int kSpeakIntakeButtonID = 3;  
+  public static final double kClimbSpeed = 0.5;
+
+  public static final int kClimbButtonID = 1;
+  
+
+  
+  
+  
   // This class cannot be initalized.
   private Constants() {}
 }
