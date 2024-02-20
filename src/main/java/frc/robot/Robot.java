@@ -30,7 +30,6 @@ public class Robot extends TimedRobot {
   private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
   private XboxController m_operatorController = new XboxController(Constants.kOperatorControllerPort);
   private Timer m_timer = new Timer();
-  private Timer m_ktimer = new Timer();
   
   @Override
   public void robotInit() {}
@@ -55,12 +54,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if(m_operatorController.getRawButton(Constants.kSpeakShootButtonID)){
+    if(m_operatorController.getLeftBumper()){
       speaker.shoot();
-    }else if(m_operatorController.getRawButton(1)){
-      speaker.reverse();
     }else{
       speaker.stop();
+    }
+    if(m_operatorController.getRightBumper()){
+      speaker.kicker();
+    }else{
+      speaker.stop();
+    }
+    if(m_operatorController.getRawButton(Constants.kSpeakIntakeButtonID)){
+      speaker.reverse();
     }
     if(m_operatorController.getRawButton(Constants.kAmpShootButtonId)){
       m_ampTop.shoot();

@@ -26,7 +26,7 @@ public final class Constants {
   public static final double kSpeakKickerShootSpeed = 0.8;
 
   public static final int kAmpShootButtonId = 2;
-  public static final int kSpeakShootButtonID = 3;  
+  public static final int kSpeakIntakeButtonID = 3;  
   // This class cannot be initalized.
   private Constants() {}
 }
