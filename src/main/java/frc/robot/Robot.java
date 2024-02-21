@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.SpeakerTop;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.AmpTop;
 import frc.robot.subsystems.Drivetrain;
@@ -22,6 +23,7 @@ import frc.robot.subsystems.Drivetrain;
 public class Robot extends TimedRobot {
 
   // Instance variables go here...
+  SpeakerTop speaker = new SpeakerTop();  
   
   Climber climber = new Climber(); 
   
@@ -55,6 +57,19 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    if(m_operatorController.getLeftBumper()){
+      speaker.kicker();
+    }else{
+      speaker.stop();
+    }
+    if(m_operatorController.getRightBumper()){
+      speaker.shoot();
+    }else{
+      speaker.stop();
+    }
+    if(m_operatorController.getRawButton(Constants.kSpeakIntakeButtonID)){
+      speaker.reverse();
+    }
     if(m_operatorController.getLeftTriggerAxis()!=0){
       climber.climb();
     }else if(m_operatorController.getRightTriggerAxis()!=0){

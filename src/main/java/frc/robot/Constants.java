@@ -6,10 +6,13 @@ public final class Constants {
   public static final int kDriverControllerPort = 0;
   public static final int kOperatorControllerPort = 1;
 
+  public static final int kShootmotor1ID = 9;
+  public static final int kShootmotor2ID =8;
+  public static final int kKickerShootmotorID =7;
+  
+  public static final int kAmpShaftmotorId = 6;
   public static final int kLcmotorID = 4;
   public static final int kRcmotorID = 5;
-  
-  public static final int kShaftmotorId = 6;
   
   public static final int kRight1DriveMotorId = 0;
   public static final int kRight2DriveMotorId = 1;
@@ -20,10 +23,14 @@ public final class Constants {
   public static final int kDriverControllerTurningAxisId = 4;
 
   public static final double kMoveSpeed = 0.7;
-  public static final double kShootSpeed = 0.7;
-  public static final double kClimbSpeed = 0.5;
+  public static final double kShootSpeed = 0.8;
+  public static final double kSpeakShootSpeed = 0.9;
+  public static final double kSpeakKickerShootSpeed = 0.8;
 
   public static final int kAmpShootButtonId = 2;
+  public static final int kSpeakIntakeButtonID = 3;  
+  public static final double kClimbSpeed = 0.5;
+
   public static final int kClimbButtonID = 1;
   
 

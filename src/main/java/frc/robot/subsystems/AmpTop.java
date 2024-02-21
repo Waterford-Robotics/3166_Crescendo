@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
 public final class AmpTop {
-    private Talon m_shaftmotor = new Talon(Constants.kShaftmotorId);
+    private Talon m_shaftmotor = new Talon(Constants.kAmpShaftmotorId);
   
     public void shoot() {
       m_shaftmotor.set(-Constants.kShootSpeed);

@@ -4,10 +4,8 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
 public final class Climber {
-    
     private Talon m_lcmotor = new Talon(Constants.kLcmotorID);
-    private Talon m_rcmotor = new Talon(Constants.kRcmotorID);
-
+     private Talon m_rcmotor = new Talon(Constants.kRcmotorID);
     public Climber() {
         m_rcmotor.setInverted(true);
     }
