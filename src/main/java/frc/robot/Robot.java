@@ -58,12 +58,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     if(m_operatorController.getLeftBumper()){
-      speaker.shoot();
+      speaker.kicker();
     }else{
       speaker.stop();
     }
     if(m_operatorController.getRightBumper()){
-      speaker.kicker();
+      speaker.shoot();
     }else{
       speaker.stop();
     }
