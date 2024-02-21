@@ -9,11 +9,11 @@ import frc.robot.Constants;
  */
 public final class Drivetrain {
   
-  
   private Talon m_right1 = new Talon(Constants.kRight1DriveMotorId);
   private Talon m_right2 = new Talon(Constants.kRight2DriveMotorId);
   private Talon m_left1 = new Talon(Constants.kLeft1DriveMotorId);
   private Talon m_left2 = new Talon(Constants.kLeft2DriveMotorId);
+  
   private DifferentialDrive m_differentialDrive = new DifferentialDrive(m_left1::set, m_right1::set);
 
   public Drivetrain() {

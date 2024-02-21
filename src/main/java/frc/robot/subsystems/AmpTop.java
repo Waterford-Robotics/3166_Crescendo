@@ -4,15 +4,19 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.Constants;
 
 public final class AmpTop {
-    private Talon m_shaftmotor = new Talon(Constants.kAmpShaftmotorId);
+
+    private Talon m_shaftMotor = new Talon(Constants.kAmpShaftMotorId);
   
     public void shoot() {
-      m_shaftmotor.set(-Constants.kShootSpeed);
+      m_shaftMotor.set(-Constants.kAmpShootSpeed);
     }
-    public void stop() {
-      m_shaftmotor.set(0);
-    }
+
     public void reverse() {
-      m_shaftmotor.set(Constants.kShootSpeed);
+      m_shaftMotor.set(Constants.kAmpShootSpeed);
     }
+
+    public void stop() {
+      m_shaftMotor.set(0);
+    }
+
 }

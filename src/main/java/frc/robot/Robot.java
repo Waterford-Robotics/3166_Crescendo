@@ -21,14 +21,11 @@ import frc.robot.subsystems.Drivetrain;
  * project.
  */
 public class Robot extends TimedRobot {
-
-  // Instance variables go here...
-  SpeakerTop speaker = new SpeakerTop();  
-  
-  Climber climber = new Climber(); 
   
   private Drivetrain m_drivetrain = new Drivetrain();
   private AmpTop m_ampTop = new AmpTop();
+  private SpeakerTop m_speaker = new SpeakerTop();
+  private Climber m_climber = new Climber(); 
 
   private XboxController m_driverController = new XboxController(Constants.kDriverControllerPort);
   private XboxController m_operatorController = new XboxController(Constants.kOperatorControllerPort);
@@ -57,34 +54,32 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    if(m_operatorController.getLeftBumper()){
-      speaker.kicker();
-    }else{
-      speaker.stop();
+    if (m_operatorController.getLeftBumper()) {
+      m_speaker.kicker();
+    } else if (m_operatorController.getRightBumper()) {
+      m_speaker.shoot();
+    } else if (m_operatorController.getRawButton(Constants.kSpeakIntakeButtonId)) {
+      m_speaker.reverse();
+    } else {
+      m_speaker.stop();
     }
-    if(m_operatorController.getRightBumper()){
-      speaker.shoot();
-    }else{
-      speaker.stop();
-    }
-    if(m_operatorController.getRawButton(Constants.kSpeakIntakeButtonID)){
-      speaker.reverse();
-    }
-    if(m_operatorController.getLeftTriggerAxis()!=0){
-      climber.climb();
-    }else if(m_operatorController.getRightTriggerAxis()!=0){
-      climber.descend();
-    }else{
-      climber.stop();
+
+    if (m_operatorController.getLeftTriggerAxis() != 0) {
+      m_climber.climb();
+    } else if (m_operatorController.getRightTriggerAxis() != 0) {
+      m_climber.descend();
+    } else {
+      m_climber.stop();
     }
    
-    if(m_operatorController.getRawButton(Constants.kAmpShootButtonId)){
+    if (m_operatorController.getRawButton(Constants.kAmpShootButtonId)) {
       m_ampTop.shoot();
-    }else if(m_operatorController.getRawButton(4)){
+    } else if (m_operatorController.getRawButton(Constants.kAmpReverseButtonId)) {
       m_ampTop.reverse();
-    }else{
+    } else {
       m_ampTop.stop();
     }
+
     m_drivetrain.drive(Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerForwardAxisId),
                        -Constants.kMoveSpeed*m_driverController.getRawAxis(Constants.kDriverControllerTurningAxisId));
   }
