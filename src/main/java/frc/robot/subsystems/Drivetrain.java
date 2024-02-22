@@ -31,6 +31,9 @@ public final class Drivetrain {
     m_differentialDrive.arcadeDrive(0, 0);
 
   }
+  public void reverse (){
+    m_differentialDrive.arcadeDrive(.75, 0);
+  }
 }
 
   

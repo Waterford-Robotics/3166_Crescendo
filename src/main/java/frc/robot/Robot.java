@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.subsystems.SpeakerTop;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.AmpTop;
@@ -46,7 +47,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    // Auto code goes here...
+    if (m_timer.get()<=2){
+      m_speaker.shoot();
+    }else if(m_timer.get()>1.5&&m_timer.get()<=2.2){
+      m_speaker.kicker();
+      m_speaker.shoot();
+    }else if(m_timer.get()>1.7&&m_timer.get()<=3.5){
+      m_drivetrain.reverse();
+      m_speaker.stop();
+    }else{
+      m_drivetrain.stop();
+    }
   }
 
   @Override
