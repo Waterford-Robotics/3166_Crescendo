@@ -18,8 +18,10 @@ public class SpeakerTop extends SubsystemBase {
   /** Creates a new AmpShooterSubsystem. */
   public SpeakerTop() {}
 
-  public void shoot(){
+  public void mainshoot(){
     m_speakerShooter1.set(SpeakerConstants.kShooterSpeed);
+  }
+  public void kickershoot(){
     m_speakerKicker.set(SpeakerConstants.kKickerSpeed);
   }
   public void stop(){

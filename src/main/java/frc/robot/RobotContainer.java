@@ -25,9 +25,15 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    new JoystickButton(m_driverController, OIConstants.kShootButton)
+    new JoystickButton(m_driverController, OIConstants.kMainShootButton)
       .whileTrue(new RunCommand(
-        () -> m_speakerShooter.shoot(), 
+        () -> m_speakerShooter.mainshoot(), 
+        m_speakerShooter).finallyDo((interrupted) -> {
+          m_speakerShooter.stop();
+        }));
+    new JoystickButton(m_driverController, OIConstants.kKickerShootButton)
+      .whileTrue(new RunCommand(
+        () -> m_speakerShooter.kickershoot(), 
         m_speakerShooter).finallyDo((interrupted) -> {
           m_speakerShooter.stop();
         }));
@@ -42,7 +48,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     return 
         Commands.sequence(
-            Commands.runOnce(() -> m_speakerShooter.shoot(), m_speakerShooter).withTimeout(1),
+            Commands.runOnce(() -> m_speakerShooter.mainshoot(), m_speakerShooter).withTimeout(1),
+            Commands.runOnce(() -> m_speakerShooter.kickershoot(), m_speakerShooter).withTimeout(1),
+            Commands.runOnce(() -> m_speakerShooter.stop(), m_speakerShooter).withTimeout(0.1),
             Commands.runOnce(() -> m_robotDrive.drive(-0.8, 0, 0, true,false), m_robotDrive).withTimeout(1)
             )
         .finallyDo((interrupted) -> { m_robotDrive.drive(0, 0, 0, true,false);});  }
