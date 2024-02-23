@@ -8,29 +8,29 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.SpeakerConstants;
+import frc.robot.Constants.MechanismConstants;
 
 public class SpeakerTop extends SubsystemBase {
-  private TalonFX m_speakerShooter1 = new TalonFX(SpeakerConstants.kSpeakerShooterID1);
-  private TalonFX m_speakerShooter2 = new TalonFX(SpeakerConstants.kSpeakerShooterID2);
-  private TalonFX m_speakerKicker = new TalonFX(SpeakerConstants.kSpeakerKickerID);
-  private Follower m_speakerShooter2Follower = new Follower(SpeakerConstants.kSpeakerShooterID1, true);
+  private TalonFX m_speakerShooter1 = new TalonFX(MechanismConstants.kSpeakerShoot1MotorId);
+  private TalonFX m_speakerShooter2 = new TalonFX(MechanismConstants.kSpeakerShoot2MotorId);
+  private TalonFX m_speakerKicker = new TalonFX(MechanismConstants.kSpeakerKickerMotorId);
+  private Follower m_speakerShooter2Follower = new Follower(MechanismConstants.kSpeakerShoot1MotorId, true);
   /** Creates a new AmpShooterSubsystem. */
   public SpeakerTop() {}
 
   public void mainshoot(){
-    m_speakerShooter1.set(SpeakerConstants.kShooterSpeed);
+    m_speakerShooter1.set(MechanismConstants.kSpeakerMainShootSpeed);
   }
   public void kickershoot(){
-    m_speakerKicker.set(SpeakerConstants.kKickerSpeed);
+    m_speakerKicker.set(MechanismConstants.kSpeakerKickerShootSpeed);
   }
   public void stop(){
     m_speakerShooter1.set(0);
     m_speakerKicker.set(0);
   }
   public void intake(){
-    m_speakerShooter1.set(SpeakerConstants.kShooterIntakeSpeed);
-    m_speakerKicker.set(SpeakerConstants.kKickerIntakeSpeed);
+    m_speakerShooter1.set(MechanismConstants.kSpeakerMainIntakeSpeed);
+    m_speakerKicker.set(MechanismConstants.kSpeakerKickerIntakeSpeed);
   }
 
   @Override

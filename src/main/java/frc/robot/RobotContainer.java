@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -40,29 +39,29 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kRightBumper.value)
+    new JoystickButton(m_driverController, OIConstants.kMakeXButtonID)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
 
-            new JoystickButton(m_driverController, OIConstants.kMainShootButton)
-            .whileTrue(new RunCommand(
-              () -> m_speakerShooter.mainshoot(), 
-              m_speakerShooter).finallyDo((interrupted) -> {
-                m_speakerShooter.stop();
-              }));
-          new JoystickButton(m_driverController, OIConstants.kKickerShootButton)
-            .whileTrue(new RunCommand(
-              () -> m_speakerShooter.kickershoot(), 
-              m_speakerShooter).finallyDo((interrupted) -> {
-                m_speakerShooter.stop();
-              }));
-          new JoystickButton(m_driverController, OIConstants.kIntakeButton)
-            .whileTrue(new RunCommand(
-              () -> m_speakerShooter.intake(), 
-              m_speakerShooter).finallyDo((interrupted) -> {
-                m_speakerShooter.stop();
-              }));
+    new JoystickButton(m_driverController, OIConstants.kSpeakerShootButtonId)
+      .whileTrue(new RunCommand(
+        () -> m_speakerShooter.mainshoot(), 
+        m_speakerShooter).finallyDo((interrupted) -> {
+          m_speakerShooter.stop();
+        }));
+    new JoystickButton(m_driverController, OIConstants.kSpeakerKickButtonId)
+      .whileTrue(new RunCommand(
+        () -> m_speakerShooter.kickershoot(), 
+        m_speakerShooter).finallyDo((interrupted) -> {
+          m_speakerShooter.stop();
+        }));
+    new JoystickButton(m_driverController, OIConstants.kSpeakerIntakeButtonId)
+      .whileTrue(new RunCommand(
+        () -> m_speakerShooter.intake(), 
+        m_speakerShooter).finallyDo((interrupted) -> {
+          m_speakerShooter.stop();
+        }));
   }
 
   public Command getAutonomousCommand() {
