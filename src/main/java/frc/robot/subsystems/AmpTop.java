@@ -7,20 +7,20 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.AmpConstants;
+import frc.robot.Constants.MechanismConstants;
 
 public class AmpTop extends SubsystemBase {
-  private TalonFX m_shooters = new TalonFX(AmpConstants.kAmpShooterID1);
+  private TalonFX m_shooters = new TalonFX(MechanismConstants.kAmpShaftMotorId);
   /** Creates a new AmpShooterSubsystem. */
   public AmpTop() {
 
   }
 
   public void shoot(){
-    m_shooters.set(AmpConstants.kAmpShooterSpeed);
+    m_shooters.set(MechanismConstants.kAmpShootingSpeed);
   }
   public void reverse(){
-    m_shooters.set(AmpConstants.kAmpShooterBackwardSpeed);
+    m_shooters.set(MechanismConstants.kAmpIntakeSpeed);
   }
   public void stop(){
     m_shooters.set(0);

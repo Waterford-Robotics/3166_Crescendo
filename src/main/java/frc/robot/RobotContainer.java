@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -68,13 +69,13 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
-    new JoystickButton(m_driverController, OIConstants.kBButton)
+    new JoystickButton(m_driverController, OIConstants.kAmpShootButtonId)
       .whileTrue(new RunCommand(
         () -> m_ampShooter.shoot(), 
         m_ampShooter).finallyDo((interrupted) -> {
           m_ampShooter.stop();
         }));
-    new JoystickButton(m_driverController, OIConstants.kYButton)
+    new JoystickButton(m_driverController, OIConstants.kAmpReverseButtonId)
       .whileTrue(new RunCommand(
         () -> m_ampShooter.shoot(),
         m_ampShooter).finallyDo((interrupted) -> {
