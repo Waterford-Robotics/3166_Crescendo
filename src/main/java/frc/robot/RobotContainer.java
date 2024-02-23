@@ -29,6 +29,12 @@ public class RobotContainer {
       m_ampShooter).finallyDo((interrupted) -> {
         m_ampShooter.stop();
       }));
+    new JoystickButton(m_driverController, OIConstants.kYButton)
+    .whileTrue(new RunCommand(
+      () -> m_ampShooter.shoot(),
+      m_ampShooter).finallyDo((interrupted) -> {
+        m_ampShooter.stop();
+      }));
   }
 
   public Command getAutonomousCommand() {

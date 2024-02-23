@@ -19,6 +19,9 @@ public class AmpTop extends SubsystemBase {
   public void shoot(){
     m_shooters.set(AmpConstants.kAmpShooterSpeed);
   }
+  public void reverse(){
+    m_shooters.set(AmpConstants.kAmpShooterBackwardSpeed);
+  }
   public void stop(){
     m_shooters.set(0);
   }

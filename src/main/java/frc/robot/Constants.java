@@ -11,11 +11,12 @@ public final class Constants {
     public static final int kAmpShooterID1 = 20;
     public static final int kAmpShooterID2 = 21;
     public static final double kAmpShooterSpeed = 0.65;
-
+    public static final double kAmpShooterBackwardSpeed = -0.5;
   }
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
     public static final int kBButton = Button.kB.value;
+    public static final int kYButton = Button.kY.value;
   }
   // This class cannot be initialized.
   private Constants() {}
