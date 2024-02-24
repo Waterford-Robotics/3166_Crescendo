@@ -24,7 +24,7 @@ public final class Drivetrain {
   }
 
   public void drive(double forwardSpeed, double turningSpeed) {
-    m_differentialDrive.arcadeDrive(forwardSpeed, turningSpeed);
+    m_differentialDrive.arcadeDrive(forwardSpeed, -turningSpeed);
   }
 
   public void stop() {

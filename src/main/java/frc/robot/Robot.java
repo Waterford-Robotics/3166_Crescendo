@@ -74,10 +74,19 @@ public class Robot extends TimedRobot {
     } else {
       m_speaker.stop();
     }
+    //amp w/ shooter
+    if(m_operatorController.getRawButton(1)){
+      m_speaker.kicker();
+      if(!m_operatorController.getRawButton(1)){
+        m_speaker.shoot();
+      }else{
+        m_speaker.stop();
+      }
+    }
 
-    if (m_operatorController.getLeftTriggerAxis() != 0) {
+    if (m_driverController.getLeftTriggerAxis() != 0) {
       m_climber.climb();
-    } else if (m_operatorController.getRightTriggerAxis() != 0) {
+    } else if (m_driverController.getRightTriggerAxis() != 0) {
       m_climber.descend();
     } else {
       m_climber.stop();
