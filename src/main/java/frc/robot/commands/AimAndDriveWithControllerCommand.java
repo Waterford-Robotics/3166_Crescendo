@@ -6,8 +6,6 @@ package frc.robot.commands;
 
 import java.util.Optional;
 
-import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.MathUtil;
@@ -24,7 +22,6 @@ public class AimAndDriveWithControllerCommand extends Command {
   private static final double kD = 0.0;
 
   private Drivetrain m_drivetrain;
-  private PhotonCamera m_camera;
 
   private XboxController m_manualController;
   private int m_fiducialId;
@@ -32,11 +29,10 @@ public class AimAndDriveWithControllerCommand extends Command {
   private PIDController m_turnController = new PIDController(kP, kI, kD);
 
   /** Creates a new AimAndDriveCommand. */
-  public AimAndDriveWithControllerCommand(Drivetrain drivetrain, PhotonCamera camera, XboxController controller, int targetFiducialId) {
+  public AimAndDriveWithControllerCommand(Drivetrain drivetrain, XboxController controller, int targetFiducialId) {
     addRequirements(drivetrain);
 
     m_drivetrain = drivetrain;
-    m_camera = camera;
     m_manualController = controller;
     m_fiducialId = targetFiducialId;
 
@@ -59,12 +55,7 @@ public class AimAndDriveWithControllerCommand extends Command {
   }
 
   private double getError() {
-    PhotonPipelineResult result = m_camera.getLatestResult();
-    if (!result.hasTargets()) {
-      return 0;
-    }
-
-    Optional<PhotonTrackedTarget> target = result.targets.stream()
+    Optional<PhotonTrackedTarget> target = m_drivetrain.getVisionDataProvider().getTargets().stream()
       .filter(x -> x.getFiducialId() == m_fiducialId)
       .findFirst();
     

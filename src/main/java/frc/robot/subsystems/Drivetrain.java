@@ -16,7 +16,9 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.VisionConstants;
 import frc.utils.SwerveUtils;
+import frc.utils.VisionDataProvider;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
@@ -44,6 +46,9 @@ public class Drivetrain extends SubsystemBase {
   // The gyro sensor
   private final AHRS m_gyro = new AHRS();
 
+  // The vision sensor
+  private VisionDataProvider m_visionDataProvider = new VisionDataProvider(VisionConstants.kCameraName, VisionConstants.kCameraToRobotTransform, VisionConstants.kAprilTagField);
+
   // Slew rate filter variables for controlling lateral acceleration
   private double m_currentRotation = 0.0;
   private double m_currentTranslationDir = 0.0;
@@ -54,7 +59,7 @@ public class Drivetrain extends SubsystemBase {
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
   // Odometry class for tracking robot pose
-  SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
+  private SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
       DriveConstants.kDriveKinematics,
       Rotation2d.fromDegrees(-m_gyro.getYaw()),
       new SwerveModulePosition[] {
@@ -88,6 +93,10 @@ public class Drivetrain extends SubsystemBase {
    */
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
+  }
+
+  public VisionDataProvider getVisionDataProvider() {
+    return m_visionDataProvider;
   }
 
   /**

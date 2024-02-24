@@ -7,6 +7,8 @@ package frc.robot;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -115,6 +117,12 @@ public final class Constants {
 
     public static final int kDrivingMotorCurrentLimit = 50; // amps
     public static final int kTurningMotorCurrentLimit = 20; // amps
+  }
+
+  public static final class VisionConstants {
+    public static final String kCameraName = "Camera_Module_v1";
+    public static final Transform3d kCameraToRobotTransform = new Transform3d();
+    public static final AprilTagFields kAprilTagField = AprilTagFields.k2024Crescendo;
   }
 
   public static final class OIConstants {

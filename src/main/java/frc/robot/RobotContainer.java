@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import org.photonvision.PhotonCamera;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -27,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems
   private final Drivetrain m_robotDrive = new Drivetrain();
-  private final PhotonCamera m_camera = new PhotonCamera("Camera_Module_v1");
 
   // The driver's controller
   XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
@@ -67,7 +64,7 @@ public class RobotContainer {
             m_robotDrive));
 
       new JoystickButton(m_driverController, Button.kLeftBumper.value)
-        .whileTrue(new AimAndDriveWithControllerCommand(m_robotDrive, m_camera, m_driverController, 0));
+        .whileTrue(new AimAndDriveWithControllerCommand(m_robotDrive, m_driverController, 4));
   }
 
   /**
