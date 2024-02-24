@@ -159,9 +159,9 @@ public final class Constants {
     public static final int kSpeakerShoot1MotorId = 9;
     public static final int kSpeakerShoot2MotorId = 8;
     public static final int kSpeakerKickerMotorId = 7;
-    public static final double kSpeakerKickerIntakeSpeed = 0.55;
+    public static final double kSpeakerKickerIntakeSpeed = -0.55;
     public static final double kSpeakerMainIntakeSpeed = 0.85;
-    public static final double kSpeakerKickerShootSpeed = -0.55;
+    public static final double kSpeakerKickerShootSpeed = 0.55;
     public static final double kSpeakerMainShootSpeed = -0.85;
 
     public static final int kAmpShaftMotorId = 6;
