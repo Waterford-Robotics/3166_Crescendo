@@ -4,22 +4,41 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.SpeakerConstants;
 
 /**
  * The scoring mechanism for the speaker.
  */
 public class SpeakerTop extends SubsystemBase {
 
-  // Instance variables go here...
+  private Talon m_shootMotor1 = new Talon(SpeakerConstants.kShoot1MotorId);
+  private Talon m_shootMotor2 = new Talon(SpeakerConstants.kShoot2MotorId);
+  private Talon m_kickerMotor = new Talon(SpeakerConstants.kKickerMotorId);
 
   /** Creates a new Shooter. */
   public SpeakerTop() {
-    // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
+    m_shootMotor1.addFollower(m_shootMotor2);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void shoot() {
+    m_shootMotor1.set(SpeakerConstants.kShootSpeed);
+    m_kickerMotor.set(SpeakerConstants.kKickerSpeed);
+  }
+
+  public void intake() {
+    m_shootMotor1.set(SpeakerConstants.kReverseSpeed);
+    m_kickerMotor.stopMotor();
+  }
+
+  public void stop() {
+    m_shootMotor1.set(0);
+    m_kickerMotor.set(0);
   }
 }

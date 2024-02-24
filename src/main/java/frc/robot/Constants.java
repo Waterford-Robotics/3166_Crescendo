@@ -126,9 +126,6 @@ public final class Constants {
     public static final int kSpeakerIntakeButtonId = Button.kX.value;
     public static final int kSpeakerKickButtonId = Button.kLeftBumper.value;
     public static final int kSpeakerShootButtonId = Button.kRightBumper.value;
-
-    public static final int kAmpShootButtonId = Button.kB.value;
-    public static final int kAmpReverseButtonId = Button.kY.value;
     
     public static final int kClimbAscendAxisId = Axis.kLeftTrigger.value;
     public static final int kClimbDescendAxisId = Axis.kRightTrigger.value;
@@ -153,15 +150,27 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
-  public static final class MechanismConstants {
-    public static final int kSpeakerShoot1MotorId = 9;
-    public static final int kSpeakerShoot2MotorId = 8;
-    public static final int kSpeakerKickerMotorId = 7;
+  public static final class AmpConstants {
+    public static final int kShaftMotorId = 6;
 
-    public static final int kAmpShaftMotorId = 6;
-
-    public static final int kClimberLeftMotorId = 4;
-    public static final int kClimberRightMotorId = 5;
-
+    public static final double kRunSpeed = -0.8;
   }
+
+  public static final class SpeakerConstants {
+    public static final int kShoot1MotorId = 9;
+    public static final int kShoot2MotorId = 8;
+    public static final int kKickerMotorId = 7;
+
+    public static final double kShootSpeed = -0.9;
+    public static final double kKickerSpeed = 0.8;
+    public static final double kReverseSpeed = 0.7;
+  }
+
+  public static final class ClimberConstants {
+    public static final int kLeftMotorId = 4;
+    public static final int kRightMotorId = 5;
+
+    public static final double kMotorSpeed = 0.5;
+  }
+
 }

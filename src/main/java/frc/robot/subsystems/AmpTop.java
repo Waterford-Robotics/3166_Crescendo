@@ -4,14 +4,16 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.AmpConstants;
 
 /**
  * The scoring mechanism for the amp.
  */
 public class AmpTop extends SubsystemBase {
 
-  // Instance variables go here...
+  private Talon m_motor = new Talon(AmpConstants.kShaftMotorId);
 
   /** Creates a new AmpTop. */
   public AmpTop() {
@@ -21,5 +23,17 @@ public class AmpTop extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void runForward() {
+    m_motor.set(AmpConstants.kRunSpeed);
+  }
+
+  public void reverse() {
+    m_motor.set(-AmpConstants.kRunSpeed);
+  }
+
+  public void stop() {
+    m_motor.stopMotor();
   }
 }
