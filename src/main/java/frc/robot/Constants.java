@@ -162,6 +162,7 @@ public final class Constants {
 
     public static final int kClimberLeftMotorId = 4;
     public static final int kClimberRightMotorId = 5;
+    public static final double kClimberSpeed = 0.65;
 
   }
 }

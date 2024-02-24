@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import frc.robot.Constants.MechanismConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -65,13 +66,12 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
-    new JoystickButton(m_driverController, OIConstants.kXButton)
+    new JoystickButton(m_driverController, OIConstants.kClimbAscendAxisId)
       .whileTrue(new RunCommand(
           () -> m_climber.climb(), 
           m_climber).finallyDo((interrupted) -> {
             m_climber.stop();
           }));
-  }
   }
 
   /**
