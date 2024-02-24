@@ -13,6 +13,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.XboxController.Button;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -128,6 +130,16 @@ public final class Constants {
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
     public static final double kDriveDeadband = 0.1;
+
+    public static final int kSpeakerIntakeButtonId = Button.kX.value;
+    public static final int kSpeakerKickButtonId = Button.kLeftBumper.value;
+    public static final int kSpeakerShootButtonId = Button.kRightBumper.value;
+
+    public static final int kAmpShootButtonId = Button.kB.value;
+    public static final int kAmpReverseButtonId = Button.kY.value;
+    
+    public static final int kClimbAscendAxisId = Axis.kLeftTrigger.value;
+    public static final int kClimbDescendAxisId = Axis.kRightTrigger.value;
   }
 
   public static final class AutoConstants {
@@ -147,5 +159,17 @@ public final class Constants {
 
   public static final class NeoMotorConstants {
     public static final double kFreeSpeedRpm = 5676;
+  }
+
+  public static final class MechanismConstants {
+    public static final int kSpeakerShoot1MotorId = 9;
+    public static final int kSpeakerShoot2MotorId = 8;
+    public static final int kSpeakerKickerMotorId = 7;
+
+    public static final int kAmpShaftMotorId = 6;
+
+    public static final int kClimberLeftMotorId = 4;
+    public static final int kClimberRightMotorId = 5;
+
   }
 }
