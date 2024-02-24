@@ -17,7 +17,7 @@ import frc.robot.subsystems.Drivetrain;
 
 public class AimAndDriveWithControllerCommand extends Command {
 
-  private static final double kP = 0.0;
+  private static final double kP = 0.05;
   private static final double kI = 0.0;
   private static final double kD = 0.0;
 
@@ -60,7 +60,7 @@ public class AimAndDriveWithControllerCommand extends Command {
       .findFirst();
     
     if (target.isPresent()) {
-      return -target.get().getYaw();
+      return target.get().getYaw();
     } else {
       return 0;
     }
