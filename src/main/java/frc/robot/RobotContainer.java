@@ -6,13 +6,16 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.AmpTop;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.SpeakerTop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 /*
@@ -24,9 +27,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems
   private final Drivetrain m_robotDrive = new Drivetrain();
+  private final AmpTop m_ampTop = new AmpTop();
+  private final SpeakerTop m_speakerTop = new SpeakerTop();
+  private final Climber m_climber = new Climber();
 
-  // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  // The drivers' controllers
+  private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -57,10 +64,26 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kRightBumper.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
+    new JoystickButton(m_driverController, OIConstants.kDriveSetXButtonId)
+        .whileTrue(m_robotDrive.runOnce(m_robotDrive::setX));
+
+    new JoystickButton(m_operatorController, OIConstants.kAmpShootButtonId)
+        .whileTrue(m_ampTop.startEnd(m_ampTop::runForward, m_ampTop::stop));
+
+    new JoystickButton(m_operatorController, OIConstants.kAmpReverseButtonId)
+        .whileTrue(m_ampTop.startEnd(m_ampTop::reverse, m_ampTop::stop));
+
+    new JoystickButton(m_operatorController, OIConstants.kSpeakerShootButtonId)
+        .whileTrue(m_speakerTop.startEnd(m_speakerTop::shoot, m_speakerTop::stop));
+    
+    new JoystickButton(m_operatorController, OIConstants.kSpeakerIntakeButtonId)
+        .whileTrue(m_speakerTop.startEnd(m_speakerTop::intake, m_speakerTop::stop));
+
+    new Trigger(() -> m_operatorController.getRawAxis(OIConstants.kClimbAscendAxisId) > 0.05)
+        .whileTrue(m_climber.startEnd(m_climber::climb, m_climber::stop));
+    
+    new Trigger(() -> m_operatorController.getRawAxis(OIConstants.kClimbDescendAxisId) > 0.05)
+        .whileTrue(m_climber.startEnd(m_climber::descend, m_climber::stop));   
   }
 
   /**

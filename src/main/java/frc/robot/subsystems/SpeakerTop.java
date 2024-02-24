@@ -34,7 +34,7 @@ public class SpeakerTop extends SubsystemBase {
 
   public void intake() {
     m_shootMotor1.set(SpeakerConstants.kReverseSpeed);
-    m_kickerMotor.stopMotor();
+    m_kickerMotor.set(-SpeakerConstants.kKickerSpeed);
   }
 
   public void stop() {

@@ -121,8 +121,13 @@ public final class Constants {
 
   public static final class OIConstants {
     public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 1;
     public static final double kDriveDeadband = 0.1;
 
+    public static final int kDriveSetXButtonId = Button.kRightBumper.value;
+
+    public static final int kAmpShootButtonId = Button.kB.value;
+    public static final int kAmpReverseButtonId = Button.kY.value;
     public static final int kSpeakerIntakeButtonId = Button.kX.value;
     public static final int kSpeakerKickButtonId = Button.kLeftBumper.value;
     public static final int kSpeakerShootButtonId = Button.kRightBumper.value;
