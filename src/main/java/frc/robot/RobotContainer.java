@@ -72,6 +72,12 @@ public class RobotContainer {
           m_climber).finallyDo((interrupted) -> {
             m_climber.stop();
           }));
+    new JoystickButton(m_driverController, OIConstants.kClimbDescendAxisId)
+      .whileTrue(new RunCommand(
+          () -> m_climber.descend(), 
+          m_climber).finallyDo((interrupted) -> {
+            m_climber.stop();
+          }));
   }
 
   /**

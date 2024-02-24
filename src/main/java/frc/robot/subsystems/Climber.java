@@ -20,6 +20,9 @@ public class Climber extends SubsystemBase {
   public void climb(){
     m_climbMotor1.set(MechanismConstants.kClimberSpeed);
   }
+  public void descend(){
+    m_climbMotor1.set(-MechanismConstants.kClimberSpeed);
+  }
   public void stop(){
     m_climbMotor1.set(0);
   }
