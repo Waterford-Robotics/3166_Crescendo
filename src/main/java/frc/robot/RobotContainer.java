@@ -46,13 +46,13 @@ public class RobotContainer {
 
     new JoystickButton(m_driverController, OIConstants.kSpeakerShootButtonId)
       .whileTrue(new RunCommand(
-        () -> m_speakerShooter.mainshoot(), 
+        () -> m_speakerShooter.shoot(), 
         m_speakerShooter).finallyDo((interrupted) -> {
           m_speakerShooter.stop();
         }));
     new JoystickButton(m_driverController, OIConstants.kSpeakerKickButtonId)
       .whileTrue(new RunCommand(
-        () -> m_speakerShooter.kickershoot(), 
+        () -> m_speakerShooter.kick(), 
         m_speakerShooter).finallyDo((interrupted) -> {
           m_speakerShooter.stop();
         }));

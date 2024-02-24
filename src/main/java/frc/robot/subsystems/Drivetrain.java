@@ -67,7 +67,6 @@ public class Drivetrain extends SubsystemBase {
   /** Creates a new Drivetrain. */
   public Drivetrain() {
   }
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {}
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
