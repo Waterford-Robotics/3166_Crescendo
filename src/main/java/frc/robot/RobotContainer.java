@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.Constants.MechanismConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
