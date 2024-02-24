@@ -16,11 +16,11 @@ public class AmpTop extends SubsystemBase {
 
   }
 
-  public void shoot(){
+  public void release(){
     m_shooters.set(MechanismConstants.kAmpShootingSpeed);
   }
   public void reverse(){
-    m_shooters.set(MechanismConstants.kAmpIntakeSpeed);
+    m_shooters.set(MechanismConstants.kAmpReverseSpeed);
   }
   public void stop(){
     m_shooters.set(0);

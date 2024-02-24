@@ -71,13 +71,13 @@ public class RobotContainer {
             m_robotDrive));
     new JoystickButton(m_driverController, OIConstants.kAmpShootButtonId)
       .whileTrue(new RunCommand(
-        () -> m_ampShooter.shoot(), 
+        () -> m_ampShooter.release(), 
         m_ampShooter).finallyDo((interrupted) -> {
           m_ampShooter.stop();
         }));
     new JoystickButton(m_driverController, OIConstants.kAmpReverseButtonId)
       .whileTrue(new RunCommand(
-        () -> m_ampShooter.shoot(),
+        () -> m_ampShooter.reverse(),
         m_ampShooter).finallyDo((interrupted) -> {
           m_ampShooter.stop();
         }));
