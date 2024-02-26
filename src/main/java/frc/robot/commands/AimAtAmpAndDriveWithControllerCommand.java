@@ -5,15 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Drivetrain;
 
-/** Add your docs here. */
-public class AimAtSpeakerAndDriveWithControllerCommand extends AimAndDriveWithControllerCommand {
+public class AimAtAmpAndDriveWithControllerCommand extends AimAndDriveWithControllerCommand {
 
-  public AimAtSpeakerAndDriveWithControllerCommand(Drivetrain drivetrain, XboxController controller) {
-    super(drivetrain, controller, 7);
+  public AimAtAmpAndDriveWithControllerCommand(Drivetrain drivetrain, XboxController controller) {
+    super(drivetrain, controller, 6);
   }
 
   @Override
@@ -21,11 +20,12 @@ public class AimAtSpeakerAndDriveWithControllerCommand extends AimAndDriveWithCo
     super.initialize();
     switch (DriverStation.getAlliance().orElse(Alliance.Blue)) {
       case Red:
-        m_fiducialId = 4;
+        m_fiducialId = 5;
         break;
       case Blue:
-        m_fiducialId = 7;
+        m_fiducialId = 6;
         break;
     }
   }
+
 }
