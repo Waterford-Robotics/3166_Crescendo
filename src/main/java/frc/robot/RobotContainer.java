@@ -8,7 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.AimAndDriveWithControllerCommand;
+import frc.robot.commands.AimAtSpeakerAndDriveWithControllerCommand;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -64,7 +64,7 @@ public class RobotContainer {
             m_robotDrive));
 
       new JoystickButton(m_driverController, Button.kLeftBumper.value)
-        .whileTrue(new AimAndDriveWithControllerCommand(m_robotDrive, m_driverController, 4));
+        .whileTrue(new AimAtSpeakerAndDriveWithControllerCommand(m_robotDrive, m_driverController));
   }
 
   /**

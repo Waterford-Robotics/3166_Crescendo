@@ -15,7 +15,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.utils.SwerveUtils;
@@ -71,6 +72,9 @@ public class Drivetrain extends SubsystemBase {
       },
       new Pose2d());
 
+  // Workaround for inconsistent alliance issue
+  private Alliance m_alliance;
+
   /** Creates a new Drivetrain. */
   public Drivetrain() {
   }
@@ -90,8 +94,6 @@ public class Drivetrain extends SubsystemBase {
     m_visionDataProvider.getEstimatedGlobalPose(getPose()).ifPresent((estimate) -> {
       m_poseEstimator.addVisionMeasurement(estimate.estimatedPose.toPose2d(), estimate.timestampSeconds);
     });
-
-    SmartDashboard.putString("Pose", getPose().toString());
   }
 
   /**
@@ -191,10 +193,20 @@ public class Drivetrain extends SubsystemBase {
     double xSpeedDelivered = xSpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = m_currentRotation * DriveConstants.kMaxAngularSpeed;
+    
+    // Get the appropriate field-oriented heading depending on the alliance.
+    Rotation2d heading;
+    if (DriverStation.getAlliance().orElse(m_alliance) == Alliance.Red) {
+      m_alliance = Alliance.Red;
+      heading = getHeading().rotateBy(Rotation2d.fromDegrees(180));
+    } else {
+      m_alliance = Alliance.Blue;
+      heading = getHeading();
+    }
 
     var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(-m_gyro.getYaw()))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, heading)
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
@@ -246,8 +258,8 @@ public class Drivetrain extends SubsystemBase {
    *
    * @return the robot's heading in degrees, from -180 to 180
    */
-  public double getHeading() {
-    return Rotation2d.fromDegrees(-m_gyro.getYaw()).getDegrees();
+  public Rotation2d getHeading() {
+    return getPose().getRotation();
   }
 
   /**

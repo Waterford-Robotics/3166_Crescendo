@@ -19,14 +19,14 @@ import frc.robot.subsystems.Drivetrain;
 
 public class AimAndDriveWithControllerCommand extends Command {
 
-  private static final double kP = 0.03;
+  private static final double kP = 0.01;
   private static final double kI = 0.00;
   private static final double kD = 0.00;
 
   private Drivetrain m_drivetrain;
 
   private XboxController m_manualController;
-  private int m_fiducialId;
+  protected int m_fiducialId;
 
   private PIDController m_turnController = new PIDController(kP, kI, kD);
 
