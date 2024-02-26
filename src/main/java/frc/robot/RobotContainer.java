@@ -42,7 +42,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
-    m_robotDrive.setDefaultCommand(
+    /*m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
@@ -51,7 +51,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
                 true, true),
-            m_robotDrive));
+            m_robotDrive));*/
   }
 
   /**
@@ -74,6 +74,9 @@ public class RobotContainer {
         .whileTrue(m_ampTop.startEnd(m_ampTop::reverse, m_ampTop::stop));
 
     new JoystickButton(m_operatorController, OIConstants.kSpeakerShootButtonId)
+        .whileTrue(m_speakerTop.startEnd(m_speakerTop::shoot, m_speakerTop::stop));
+
+    new JoystickButton(m_operatorController, OIConstants.kSpeakerKickButtonId)
         .whileTrue(m_speakerTop.startEnd(m_speakerTop::shoot, m_speakerTop::stop));
     
     new JoystickButton(m_operatorController, OIConstants.kSpeakerIntakeButtonId)
