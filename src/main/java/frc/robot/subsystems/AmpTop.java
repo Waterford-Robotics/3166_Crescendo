@@ -30,7 +30,7 @@ public class AmpTop extends SubsystemBase {
   }
 
   public void reverse() {
-    m_motor.set(-AmpConstants.kRunSpeed);
+    m_motor.set(AmpConstants.kReverseSpeed);
   }
 
   public void stop() {
