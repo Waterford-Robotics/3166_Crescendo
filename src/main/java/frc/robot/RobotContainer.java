@@ -67,7 +67,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     new JoystickButton(m_driverController, OIConstants.kDriveSetXButtonId)
-        .whileTrue(m_robotDrive.runOnce(m_robotDrive::setX));
+        .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
 
     new JoystickButton(m_operatorController, OIConstants.kAmpShootButtonId)
         .whileTrue(m_ampTop.startEnd(m_ampTop::runForward, m_ampTop::stop));
