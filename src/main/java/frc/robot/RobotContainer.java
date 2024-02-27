@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.AmpTop;
@@ -12,6 +13,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpeakerTop;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -95,6 +97,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new InstantCommand(() -> m_robotDrive.resetOdometry(m_robotDrive.getPose()));
+    //basic auto that just goes forwards a bit
+       return
+       Commands.sequence(
+           new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+           new RunCommand(() -> m_robotDrive.drive(3, 0, 0, true,false), m_robotDrive)
+             .until(() -> m_robotDrive.getPose().getX()>3)
+           )
+       .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, true,false);});
   }
 }
