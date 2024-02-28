@@ -79,7 +79,7 @@ public class RobotContainer {
         .whileTrue(m_speakerTop.startEnd(m_speakerTop::shoot, m_speakerTop::stop));
 
     new JoystickButton(m_operatorController, OIConstants.kSpeakerKickButtonId)
-        .whileTrue(m_speakerTop.startEnd(m_speakerTop::shoot, m_speakerTop::stop));
+        .whileTrue(m_speakerTop.startEnd(m_speakerTop::kick, m_speakerTop::stop));
     
     new JoystickButton(m_operatorController, OIConstants.kSpeakerIntakeButtonId)
         .whileTrue(m_speakerTop.startEnd(m_speakerTop::intake, m_speakerTop::stop));
