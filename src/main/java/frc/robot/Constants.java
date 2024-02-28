@@ -158,7 +158,7 @@ public final class Constants {
   public static final class AmpConstants {
     public static final int kShaftMotorId = 6;
 
-    public static final double kRunSpeed = -0.8;
+    public static final double kRunSpeed = -0.6;
     public static final double kReverseSpeed = 0.6;
   }
 
