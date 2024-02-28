@@ -33,6 +33,7 @@ public class SpeakerTop extends SubsystemBase {
 
   public void kick() {
     m_kickerMotor.set(SpeakerConstants.kKickerSpeed);
+    m_shootMotor1.set(SpeakerConstants.kShootSpeed);
   }
 
   public void intake() {
