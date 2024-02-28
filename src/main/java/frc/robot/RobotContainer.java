@@ -101,8 +101,12 @@ public class RobotContainer {
        return
        Commands.sequence(
            new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+           new RunCommand(() -> m_speakerTop.shoot(), m_speakerTop)
+             .withTimeout(1),
+            new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+             .withTimeout(1),
            new RunCommand(() -> m_robotDrive.drive(3, 0, 0, true,false), m_robotDrive)
-             .until(() -> m_robotDrive.getPose().getX()>3)
+             .until(() -> m_robotDrive.getPose().getX()>2)
            )
        .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, true,false);});
   }
