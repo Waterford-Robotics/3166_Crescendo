@@ -93,7 +93,7 @@ public class RobotContainer {
         .whileTrue(m_climber.startEnd(m_climber::descend, m_climber::stop));   
   }
   
-  // shooter auto when close to amp
+   // shooter auto when close to amp
   private final Command m_closeAmpAuto = Commands.sequence(
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
@@ -102,10 +102,10 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(2,0,0,false,false),m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>0.5),
+        .until(() -> m_robotDrive.getPose().getX()>0.3),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>1)
+        .until(() -> m_robotDrive.getPose().getX()>0.7)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
   // shooter auto when middle to amp    
@@ -117,7 +117,7 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(3, 0, 0, false,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>2)
+        .until(() -> m_robotDrive.getPose().getX()>0.5)
       )
       .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);});
   
@@ -130,17 +130,17 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(2,0,0,false,false),m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>1.5),
+        .until(() -> m_robotDrive.getPose().getX()>1),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>1)
+        .until(() -> m_robotDrive.getPose().getX()>0.5)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
 
   // drives straight out
   private final Command m_driveOutAuto = Commands.sequence(
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
     new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false),m_robotDrive)
-      .until(() -> m_robotDrive.getPose().getX()>1.5)
+      .until(() -> m_robotDrive.getPose().getX()>1)
     .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
   // does nothing
