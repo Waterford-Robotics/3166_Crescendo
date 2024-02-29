@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.AmpTop;
 import frc.robot.subsystems.Climber;
@@ -90,25 +92,73 @@ public class RobotContainer {
     new Trigger(() -> m_operatorController.getRawAxis(OIConstants.kClimbDescendAxisId) > 0.05)
         .whileTrue(m_climber.startEnd(m_climber::descend, m_climber::stop));   
   }
+  
+  // shooter auto when close to amp
+  private final Command m_closeAmpAuto = Commands.sequence(
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
+        .withTimeout(1),
+      new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+        .withTimeout(1),
+      new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
+      new RunCommand(() -> m_robotDrive.drive(2,0,0,false,false),m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>0.5),
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>1)
+      .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
+  
+  // shooter auto when middle to amp    
+  private final Command m_middleAmpAuto = Commands.sequence(
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+      new RunCommand(() -> m_speakerTop.shoot(), m_speakerTop)
+        .withTimeout(1),
+      new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+        .withTimeout(1),
+      new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
+      new RunCommand(() -> m_robotDrive.drive(3, 0, 0, false,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>2)
+      )
+      .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);});
+  
+  // shooter auto when far from amp
+  private final Command m_farAmpAuto = Commands.sequence(
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
+        .withTimeout(1),
+      new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+        .withTimeout(1),
+      new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
+      new RunCommand(() -> m_robotDrive.drive(2,0,0,false,false),m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>1.5),
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>1)
+      .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
 
+  // drives straight out
+  private final Command m_driveOutAuto = Commands.sequence(
+    new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+    new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false),m_robotDrive)
+      .until(() -> m_robotDrive.getPose().getX()>1.5)
+    .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
+  
+  // does nothing
+  private final Command m_nothingAuto = Commands.sequence(
+    new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive));
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //basic auto that just goes forwards a bit
-       return
-       Commands.sequence(
-           new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
-           new RunCommand(() -> m_speakerTop.shoot(), m_speakerTop)
-             .withTimeout(1),
-           new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
-             .withTimeout(1),
-           new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
-           new RunCommand(() -> m_robotDrive.drive(3, 0, 0, false,false), m_robotDrive)
-             .until(() -> m_robotDrive.getPose().getX()>2)
-           )
-       .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);});
+    m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
+    m_chooser.addOption("Drive Out Auto", m_driveOutAuto);
+    m_chooser.addOption("Close to Amp Auto", m_closeAmpAuto);
+    m_chooser.addOption("Middle to Amp Auto", m_middleAmpAuto);
+    m_chooser.addOption("Far to Amp Auto",m_farAmpAuto);
+    SmartDashboard.putData(m_chooser);
+    return m_chooser.getSelected();
   }
 }
