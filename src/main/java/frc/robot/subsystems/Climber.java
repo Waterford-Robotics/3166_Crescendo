@@ -27,11 +27,11 @@ public class Climber extends SubsystemBase {
   public void periodic() {}
 
   public void climb() {
-    m_leftMotor.set(ClimberConstants.kMotorSpeed);
+    m_leftMotor.set(-ClimberConstants.kMotorSpeed);
   }
 
   public void descend() {
-    m_leftMotor.set(-ClimberConstants.kMotorSpeed);
+    m_leftMotor.set(ClimberConstants.kMotorSpeed);
   }
 
   public void stop() {
