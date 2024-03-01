@@ -111,10 +111,10 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(2,0,0,false,false),m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>0.3),
+        .until(() -> m_robotDrive.getPose().getX()>0.1),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>0.7)
+        .until(() -> m_robotDrive.getPose().getX()>0.8)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
   // shooter auto when middle to amp    
@@ -125,8 +125,8 @@ public class RobotContainer {
       new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
-      new RunCommand(() -> m_robotDrive.drive(3, 0, 0, false,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>0.5)
+      new RunCommand(() -> m_robotDrive.drive(2, 0, 0, false,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>1)
       )
       .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);});
   
@@ -139,10 +139,10 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(2,0,0,false,false),m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>1),
+        .until(() -> m_robotDrive.getPose().getY()>1.2),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>0.5)
+        .until(() -> m_robotDrive.getPose().getX()>0.4)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
 
   // drives straight out
