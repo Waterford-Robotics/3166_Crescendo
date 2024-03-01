@@ -111,10 +111,10 @@ public class RobotContainer {
       new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
-      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond,0,0,false,false),m_robotDrive)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
         .until(() -> m_robotDrive.getPose().getX()>0.1),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
-      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond,0,0,true,false), m_robotDrive)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
         .until(() -> m_robotDrive.getPose().getX()>0.8)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
@@ -126,7 +126,7 @@ public class RobotContainer {
       new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
-      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond, 0, 0, false,false), m_robotDrive)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed, 0, 0, false,false), m_robotDrive)
         .until(() -> m_robotDrive.getPose().getX()>1)
       )
       .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);});
@@ -139,17 +139,17 @@ public class RobotContainer {
       new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
-      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond,0,0,false,false),m_robotDrive)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
         .until(() -> m_robotDrive.getPose().getY()>1.2),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
-      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond,0,0,true,false), m_robotDrive)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
         .until(() -> m_robotDrive.getPose().getX()>0.4)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
 
   // drives straight out
   private final Command m_driveOutAuto = Commands.sequence(
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
-    new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond,0,0,true,false),m_robotDrive)
+    new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false),m_robotDrive)
       .until(() -> m_robotDrive.getPose().getX()>1)
     .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
