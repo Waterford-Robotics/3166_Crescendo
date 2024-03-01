@@ -39,10 +39,19 @@ public class RobotContainer {
   private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
 
+  public void periodic(){
+    SmartDashboard.putData(m_chooser);
+  }
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
+    m_chooser.addOption("Drive Out Auto", m_driveOutAuto);
+    m_chooser.addOption("Close to Amp Auto", m_closeAmpAuto);
+    m_chooser.addOption("Middle to Amp Auto", m_middleAmpAuto);
+    m_chooser.addOption("Far to Amp Auto",m_farAmpAuto);
+    SmartDashboard.putData(m_chooser);
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
@@ -93,7 +102,7 @@ public class RobotContainer {
         .whileTrue(m_climber.startEnd(m_climber::descend, m_climber::stop));   
   }
   
-   // shooter auto when close to amp
+  // shooter auto when close to amp
   private final Command m_closeAmpAuto = Commands.sequence(
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
@@ -153,12 +162,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
-    m_chooser.addOption("Drive Out Auto", m_driveOutAuto);
-    m_chooser.addOption("Close to Amp Auto", m_closeAmpAuto);
-    m_chooser.addOption("Middle to Amp Auto", m_middleAmpAuto);
-    m_chooser.addOption("Far to Amp Auto",m_farAmpAuto);
-    SmartDashboard.putData(m_chooser);
     return m_chooser.getSelected();
   }
 }
