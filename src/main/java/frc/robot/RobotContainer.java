@@ -9,7 +9,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.AmpTop;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -110,10 +112,10 @@ public class RobotContainer {
       new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
-      new RunCommand(() -> m_robotDrive.drive(2,0,0,false,false),m_robotDrive)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond,0,0,false,false),m_robotDrive)
         .until(() -> m_robotDrive.getPose().getX()>0.1),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
-      new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false), m_robotDrive)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond,0,0,true,false), m_robotDrive)
         .until(() -> m_robotDrive.getPose().getX()>0.8)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
@@ -125,7 +127,7 @@ public class RobotContainer {
       new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
-      new RunCommand(() -> m_robotDrive.drive(2, 0, 0, false,false), m_robotDrive)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond, 0, 0, false,false), m_robotDrive)
         .until(() -> m_robotDrive.getPose().getX()>1)
       )
       .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);});
@@ -138,17 +140,17 @@ public class RobotContainer {
       new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
-      new RunCommand(() -> m_robotDrive.drive(2,0,0,false,false),m_robotDrive)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond,0,0,false,false),m_robotDrive)
         .until(() -> m_robotDrive.getPose().getY()>1.2),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
-      new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false), m_robotDrive)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond,0,0,true,false), m_robotDrive)
         .until(() -> m_robotDrive.getPose().getX()>0.4)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
 
   // drives straight out
   private final Command m_driveOutAuto = Commands.sequence(
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
-    new RunCommand(() -> m_robotDrive.drive(2,0,0,true,false),m_robotDrive)
+    new RunCommand(() -> m_robotDrive.drive(AutoConstants.kMaxSpeedMetersPerSecond,0,0,true,false),m_robotDrive)
       .until(() -> m_robotDrive.getPose().getX()>1)
     .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
