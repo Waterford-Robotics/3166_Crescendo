@@ -5,14 +5,23 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.ConversionFactors;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.AmpTop;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.SpeakerTop;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
 /*
@@ -24,14 +33,28 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems
   private final Drivetrain m_robotDrive = new Drivetrain();
+  private final AmpTop m_ampTop = new AmpTop();
+  private final SpeakerTop m_speakerTop = new SpeakerTop();
+  private final Climber m_climber = new Climber();
 
-  // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  // The drivers' controllers
+  private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
 
+  public void periodic(){
+    SmartDashboard.putData(m_chooser);
+  }
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
+    m_chooser.addOption("Drive Out Auto", m_driveOutAuto);
+    m_chooser.addOption("Close to Amp Auto", m_closeAmpAuto);
+    m_chooser.addOption("Middle to Amp Auto", m_middleAmpAuto);
+    m_chooser.addOption("Far to Amp Auto",m_farAmpAuto);
+    m_chooser.addOption("In and Out Auto", m_driveInOutAuto);
+    SmartDashboard.putData(m_chooser);
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
@@ -43,7 +66,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
+              false, true),
             m_robotDrive));
   }
 
@@ -57,18 +80,100 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kRightBumper.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
-  }
+    new JoystickButton(m_driverController, OIConstants.kDriveSetXButtonId)
+        .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
 
+    new JoystickButton(m_operatorController, OIConstants.kAmpShootButtonId)
+        .whileTrue(m_ampTop.startEnd(m_ampTop::runForward, m_ampTop::stop));
+
+    new JoystickButton(m_operatorController, OIConstants.kAmpReverseButtonId)
+        .whileTrue(m_ampTop.startEnd(m_ampTop::reverse, m_ampTop::stop));
+
+    new JoystickButton(m_operatorController, OIConstants.kSpeakerShootButtonId)
+        .whileTrue(m_speakerTop.startEnd(m_speakerTop::shoot, m_speakerTop::stop));
+
+    new JoystickButton(m_operatorController, OIConstants.kSpeakerKickButtonId)
+        .whileTrue(m_speakerTop.startEnd(m_speakerTop::kick, m_speakerTop::stop));
+    
+    new JoystickButton(m_operatorController, OIConstants.kSpeakerIntakeButtonId)
+        .whileTrue(m_speakerTop.startEnd(m_speakerTop::intake, m_speakerTop::stop));
+
+    new Trigger(() -> m_operatorController.getRawAxis(OIConstants.kClimbAscendAxisId) > 0.05)
+        .whileTrue(m_climber.startEnd(m_climber::climb, m_climber::stop));
+    
+    new Trigger(() -> m_operatorController.getRawAxis(OIConstants.kClimbDescendAxisId) > 0.05)
+        .whileTrue(m_climber.startEnd(m_climber::descend, m_climber::stop));   
+  }
+  
+  // shooter auto when close to amp
+  private final Command m_closeAmpAuto = Commands.sequence(
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
+        .withTimeout(1),
+      new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+        .withTimeout(1),
+      new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>0.1),
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>0.8)
+      .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
+  
+  // shooter auto when middle to amp    
+  private final Command m_middleAmpAuto = Commands.sequence(
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+      new RunCommand(() -> m_speakerTop.shoot(), m_speakerTop)
+        .withTimeout(1),
+      new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+        .withTimeout(1),
+      new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed, 0, 0, false,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()<-80*ConversionFactors.kInchesToMeters)
+      )
+      .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);});
+  
+  // shooter auto when far from amp
+  private final Command m_farAmpAuto = Commands.sequence(
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
+        .withTimeout(1),
+      new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+        .withTimeout(1),
+      new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()<-1.2),
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>0.4)
+      .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
+
+  // drives straight out
+  private final Command m_driveOutAuto = Commands.sequence(
+    new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+    new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false),m_robotDrive)
+      .until(() -> m_robotDrive.getPose().getX()<-120*ConversionFactors.kInchesToMeters)
+    .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
+  
+  // drive in and out
+  private final Command m_driveInOutAuto = Commands.sequence(
+    new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+    new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed, 0, 0, true, false),m_robotDrive)
+      .withTimeout(2),
+    new RunCommand(() -> m_robotDrive.drive(-AutoConstants.kAutoSpeed, 0, 0, true, false),m_robotDrive)
+      .withTimeout(3)
+    .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
+  
+    // does nothing
+  private final Command m_nothingAuto = Commands.sequence(
+    new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive));
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new InstantCommand(() -> m_robotDrive.resetOdometry(m_robotDrive.getPose()));
+    return m_chooser.getSelected();
   }
 }
