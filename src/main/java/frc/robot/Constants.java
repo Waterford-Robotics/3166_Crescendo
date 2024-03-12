@@ -127,7 +127,7 @@ public final class Constants {
     public static final int kDriveSetXButtonId = Button.kRightBumper.value;
 
     public static final int kAmpShootButtonId = Button.kB.value;
-    public static final int kAmpReverseButtonId = Button.kY.value;
+    public static final int kAmpKickButtonId = Button.kY.value;
     public static final int kSpeakerIntakeButtonId = Button.kX.value;
     public static final int kSpeakerKickButtonId = Button.kLeftBumper.value;
     public static final int kSpeakerShootButtonId = Button.kRightBumper.value;
@@ -175,6 +175,8 @@ public final class Constants {
     public static final double kShootSpeed = -0.9;
     public static final double kKickerSpeed = 0.8;
     public static final double kReverseSpeed = 0.7;
+    public static final double kAmpTopSpeed = -0.2;
+    public static final double kAmpBottomSpeed = -0.8;
   }
 
   public static final class ClimberConstants {

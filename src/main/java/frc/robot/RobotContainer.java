@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ConversionFactors;
 import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.AmpTop;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpeakerTop;
@@ -33,7 +32,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems
   private final Drivetrain m_robotDrive = new Drivetrain();
-  private final AmpTop m_ampTop = new AmpTop();
   private final SpeakerTop m_speakerTop = new SpeakerTop();
   private final Climber m_climber = new Climber();
 
@@ -84,10 +82,10 @@ public class RobotContainer {
         .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
 
     new JoystickButton(m_operatorController, OIConstants.kAmpShootButtonId)
-        .whileTrue(m_ampTop.startEnd(m_ampTop::runForward, m_ampTop::stop));
+        .whileTrue(m_speakerTop.startEnd(m_speakerTop::ampshoot, m_speakerTop::stop));
 
-    new JoystickButton(m_operatorController, OIConstants.kAmpReverseButtonId)
-        .whileTrue(m_ampTop.startEnd(m_ampTop::reverse, m_ampTop::stop));
+    new JoystickButton(m_operatorController, OIConstants.kAmpKickButtonId)
+        .whileTrue(m_speakerTop.startEnd(m_speakerTop::ampkick, m_speakerTop::stop));
 
     new JoystickButton(m_operatorController, OIConstants.kSpeakerShootButtonId)
         .whileTrue(m_speakerTop.startEnd(m_speakerTop::shoot, m_speakerTop::stop));

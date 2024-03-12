@@ -12,7 +12,7 @@ import frc.robot.Constants.SpeakerConstants;
  * The scoring mechanism for the speaker.
  */
 public class SpeakerTop extends SubsystemBase {
-
+  // shoot motor 2 is on the bottom
   private Talon m_shootMotor1 = new Talon(SpeakerConstants.kShoot1MotorId);
   private Talon m_shootMotor2 = new Talon(SpeakerConstants.kShoot2MotorId);
   private Talon m_kickerMotor = new Talon(SpeakerConstants.kKickerMotorId);
@@ -25,6 +25,17 @@ public class SpeakerTop extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+  
+  public void ampshoot() {
+    m_shootMotor1.set(SpeakerConstants.kAmpTopSpeed);
+    m_shootMotor2.set(SpeakerConstants.kAmpBottomSpeed);
+  }
+  
+  public void ampkick() {
+    m_shootMotor1.set(SpeakerConstants.kAmpTopSpeed);
+    m_shootMotor2.set(SpeakerConstants.kAmpBottomSpeed);
+    m_kickerMotor.set(SpeakerConstants.kKickerSpeed);
   }
 
   public void shoot() {
