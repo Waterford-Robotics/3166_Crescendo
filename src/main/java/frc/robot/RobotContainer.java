@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.ConversionFactors;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.AmpTop;
 import frc.robot.subsystems.Climber;
@@ -52,6 +53,7 @@ public class RobotContainer {
     m_chooser.addOption("Close to Amp Auto", m_closeAmpAuto);
     m_chooser.addOption("Middle to Amp Auto", m_middleAmpAuto);
     m_chooser.addOption("Far to Amp Auto",m_farAmpAuto);
+    m_chooser.addOption("In and Out Auto", m_driveInOutAuto);
     SmartDashboard.putData(m_chooser);
     // Configure the button bindings
     configureButtonBindings();
@@ -64,7 +66,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                true, true),
+              false, true),
             m_robotDrive));
   }
 
@@ -127,7 +129,7 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed, 0, 0, false,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>1)
+        .until(() -> m_robotDrive.getPose().getX()<-80*ConversionFactors.kInchesToMeters)
       )
       .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);});
   
@@ -140,7 +142,7 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getY()>1.2),
+        .until(() -> m_robotDrive.getPose().getX()<-1.2),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
         .until(() -> m_robotDrive.getPose().getX()>0.4)
@@ -150,10 +152,19 @@ public class RobotContainer {
   private final Command m_driveOutAuto = Commands.sequence(
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
     new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false),m_robotDrive)
-      .until(() -> m_robotDrive.getPose().getX()>1)
+      .until(() -> m_robotDrive.getPose().getX()<-120*ConversionFactors.kInchesToMeters)
     .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
-  // does nothing
+  // drive in and out
+  private final Command m_driveInOutAuto = Commands.sequence(
+    new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+    new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed, 0, 0, true, false),m_robotDrive)
+      .withTimeout(2),
+    new RunCommand(() -> m_robotDrive.drive(-AutoConstants.kAutoSpeed, 0, 0, true, false),m_robotDrive)
+      .withTimeout(3)
+    .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
+  
+    // does nothing
   private final Command m_nothingAuto = Commands.sequence(
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive));
   SendableChooser<Command> m_chooser = new SendableChooser<>();

@@ -156,6 +156,10 @@ public final class Constants {
     public static final double kFreeSpeedRpm = 5676;
   }
 
+  public static final class ConversionFactors {
+    public static final double kInchesToMeters = 0.0254;
+  }
+
   public static final class AmpConstants {
     public static final int kShaftMotorId = 6;
 
