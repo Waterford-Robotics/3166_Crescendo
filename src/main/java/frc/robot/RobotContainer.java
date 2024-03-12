@@ -66,7 +66,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-              false, true),
+              true, true),
             m_robotDrive));
   }
 
@@ -114,10 +114,10 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>0.1),
+        .until(() -> m_robotDrive.getPose().getX()<-30*ConversionFactors.kInchesToMeters),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>0.8)
+        .until(() -> m_robotDrive.getPose().getX()<-80*ConversionFactors.kInchesToMeters)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
   // shooter auto when middle to amp    
@@ -142,10 +142,10 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()<-1.2),
+        .until(() -> m_robotDrive.getPose().getX()<-120*ConversionFactors.kInchesToMeters),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>0.4)
+        .until(() -> m_robotDrive.getPose().getX()<-60*ConversionFactors.kInchesToMeters)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
 
   // drives straight out
