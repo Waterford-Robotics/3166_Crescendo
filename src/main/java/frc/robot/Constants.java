@@ -138,6 +138,8 @@ public final class Constants {
 
   public static final class AutoConstants {
     public static final double kAutoSpeed = 0.3;
+    public static final double kInAutoSpeed = 0.3;
+    public static final double kOutAutoSpeed = 0.2;
     public static final double kMaxSpeedMetersPerSecond = 3;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
@@ -172,11 +174,11 @@ public final class Constants {
     public static final int kShoot2MotorId = 8;
     public static final int kKickerMotorId = 7;
 
-    public static final double kShootSpeed = -0.9;
+    public static final double kShootSpeed = -0.8;
     public static final double kKickerSpeed = 0.8;
     public static final double kReverseSpeed = 0.7;
-    public static final double kAmpTopSpeed = -0.2;
-    public static final double kAmpBottomSpeed = -0.8;
+    public static final double kAmpTopSpeed = 0.25;
+    public static final double kAmpBottomSpeed = 0.9;
   }
 
   public static final class ClimberConstants {

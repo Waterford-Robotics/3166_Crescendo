@@ -16,10 +16,11 @@ public class SpeakerTop extends SubsystemBase {
   private Talon m_shootMotor1 = new Talon(SpeakerConstants.kShoot1MotorId);
   private Talon m_shootMotor2 = new Talon(SpeakerConstants.kShoot2MotorId);
   private Talon m_kickerMotor = new Talon(SpeakerConstants.kKickerMotorId);
-
+  
   /** Creates a new Shooter. */
   public SpeakerTop() {
     m_shootMotor1.addFollower(m_shootMotor2);
+    m_shootMotor1.setInverted(true);
   }
 
   @Override

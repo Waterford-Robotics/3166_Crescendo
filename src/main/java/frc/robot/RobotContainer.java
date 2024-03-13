@@ -156,10 +156,10 @@ public class RobotContainer {
   // drive in and out
   private final Command m_driveInOutAuto = Commands.sequence(
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
-    new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed, 0, 0, true, false),m_robotDrive)
-      .withTimeout(2),
-    new RunCommand(() -> m_robotDrive.drive(-AutoConstants.kAutoSpeed, 0, 0, true, false),m_robotDrive)
-      .withTimeout(3)
+    new RunCommand(() -> m_robotDrive.drive(AutoConstants.kInAutoSpeed, 0, 0, true, false),m_robotDrive)
+      .withTimeout(3),
+    new RunCommand(() -> m_robotDrive.drive(-AutoConstants.kOutAutoSpeed, 0, 0, true, false),m_robotDrive)
+      .withTimeout(4)
     .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
     // does nothing
