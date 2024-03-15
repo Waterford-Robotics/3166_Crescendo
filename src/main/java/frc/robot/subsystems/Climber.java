@@ -13,28 +13,25 @@ import frc.robot.Constants.ClimberConstants;
  */
 public class Climber extends SubsystemBase {
 
-  private Talon m_leftMotor = new Talon(ClimberConstants.kLeftMotorId);
-  private Talon m_rightMotor = new Talon(ClimberConstants.kRightMotorId);
+  private Talon m_motor = new Talon(ClimberConstants.kMotorId);
 
   /** Creates a new Climber. */
   public Climber() {
-    m_leftMotor.addFollower(m_rightMotor);
 
-    m_rightMotor.setInverted(true);
   }
 
   @Override
   public void periodic() {}
 
   public void climb() {
-    m_leftMotor.set(-ClimberConstants.kMotorSpeed);
+    m_motor.set(-ClimberConstants.kMotorSpeed);
   }
 
   public void descend() {
-    m_leftMotor.set(ClimberConstants.kMotorSpeed);
+    m_motor.set(ClimberConstants.kMotorSpeed);
   }
 
   public void stop() {
-    m_leftMotor.set(0);
+    m_motor.set(0);
   }
 }
