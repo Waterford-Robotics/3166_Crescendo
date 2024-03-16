@@ -48,11 +48,19 @@ public class RobotContainer {
   public RobotContainer() {
     m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
     m_chooser.addOption("Drive Out Auto", m_driveOutAuto);
-    m_chooser.addOption("Close to Amp Auto", m_closeAmpAuto);
-    m_chooser.addOption("Middle to Amp Auto", m_middleAmpAuto);
-    m_chooser.addOption("Far to Amp Auto",m_farAmpAuto);
-    m_chooser.addOption("In and Out Auto", m_driveInOutAuto);
+    m_chooser.addOption("Close to Amp Out Auto", m_closeAmpOutAuto);
+    m_chooser.addOption("Middle to Amp Out Auto", m_middleAmpOutAuto);
+    m_chooser.addOption("Far to Amp Out Auto",m_farAmpOutAuto);
+    m_chooser.addOption("In and Out Auto", m_driveOutInAuto);
+    m_chooser.addOption("Close to Amp Out In Auto", m_closeAmpOutInAuto);
+    m_chooser.addOption("Middle to Amp Out In Auto", m_middleAmpOutInAuto);
+    m_chooser.addOption("Far to Amp Out In Auto", m_farAmpOutInAuto);
+    m_chooser.addOption("Shoot Only Auto", m_shootOnlyAuto);
     SmartDashboard.putData(m_chooser);
+    double driveSpeed = 1;
+    SmartDashboard.putNumber("Drive Speed", driveSpeed);
+    boolean fieldRelative = true;
+    SmartDashboard.putBoolean("Field Relative", fieldRelative);
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
@@ -61,10 +69,10 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-              true, true),
+                -MathUtil.applyDeadband(driveSpeed * m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(driveSpeed * m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(driveSpeed * m_driverController.getRightX(), OIConstants.kDriveDeadband),
+              fieldRelative, true),
             m_robotDrive));
   }
 
@@ -102,9 +110,18 @@ public class RobotContainer {
     new Trigger(() -> m_operatorController.getRawAxis(OIConstants.kClimbDescendAxisId) > 0.05)
         .whileTrue(m_climber.startEnd(m_climber::descend, m_climber::stop));   
   }
+  // shooter auto only shoots
+  private final Command m_shootOnlyAuto = Commands.sequence(
+    new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+    new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
+      .withTimeout(1),
+    new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+      .withTimeout(1),
+    new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop)
+      .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
-  // shooter auto when close to amp
-  private final Command m_closeAmpAuto = Commands.sequence(
+  // shooter auto when close to amp drives out
+  private final Command m_closeAmpOutAuto = Commands.sequence(
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
         .withTimeout(1),
@@ -118,8 +135,26 @@ public class RobotContainer {
         .until(() -> m_robotDrive.getPose().getX()<-80*ConversionFactors.kInchesToMeters)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
-  // shooter auto when middle to amp    
-  private final Command m_middleAmpAuto = Commands.sequence(
+  // shooter auto when close to amp drives out and in
+  private final Command m_closeAmpOutInAuto = Commands.sequence(
+    new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+    new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
+      .withTimeout(1),
+    new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+      .withTimeout(1),
+    new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
+    new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
+      .until(() -> m_robotDrive.getPose().getX()<-30*ConversionFactors.kInchesToMeters),
+    new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+    new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
+      .until(() -> m_robotDrive.getPose().getX()<-80*ConversionFactors.kInchesToMeters),
+    new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+    new RunCommand(() -> m_robotDrive.drive(-AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
+      .until(() -> m_robotDrive.getPose().getX()>70*ConversionFactors.kInchesToMeters)
+    .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
+
+  // shooter auto when middle to amp drives out
+  private final Command m_middleAmpOutAuto = Commands.sequence(
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
       new RunCommand(() -> m_speakerTop.shoot(), m_speakerTop)
         .withTimeout(1),
@@ -128,11 +163,25 @@ public class RobotContainer {
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed, 0, 0, false,false), m_robotDrive)
         .until(() -> m_robotDrive.getPose().getX()<-80*ConversionFactors.kInchesToMeters)
-      )
-      .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);});
+      .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);}));
   
-  // shooter auto when far from amp
-  private final Command m_farAmpAuto = Commands.sequence(
+  // shooter auto when middle to amp drives out and in
+  private final Command m_middleAmpOutInAuto = Commands.sequence(
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+      new RunCommand(() -> m_speakerTop.shoot(), m_speakerTop)
+        .withTimeout(1),
+      new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+        .withTimeout(1),
+      new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed, 0, 0, false,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()<-80*ConversionFactors.kInchesToMeters),
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
+      new RunCommand(() -> m_robotDrive.drive(-AutoConstants.kAutoSpeed, 0, 0, false,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>70*ConversionFactors.kInchesToMeters)
+      .finallyDo((interrupted) -> {m_robotDrive.drive(0, 0, 0, false,false);}));
+
+  // shooter auto when far from amp drives out
+  private final Command m_farAmpOutAuto = Commands.sequence(
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
         .withTimeout(1),
@@ -146,6 +195,24 @@ public class RobotContainer {
         .until(() -> m_robotDrive.getPose().getX()<-60*ConversionFactors.kInchesToMeters)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
 
+  // shooter auto when far from amp drives out and in
+  private final Command m_farAmpOutInAuto = Commands.sequence(
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
+        .withTimeout(1),
+      new RunCommand(() -> m_speakerTop.kick(), m_speakerTop)
+        .withTimeout(1),
+      new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()<-120*ConversionFactors.kInchesToMeters),
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()<-60*ConversionFactors.kInchesToMeters),
+      new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
+      new RunCommand(() -> m_robotDrive.drive(-AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>40*ConversionFactors.kInchesToMeters)
+      .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
+  
   // drives straight out
   private final Command m_driveOutAuto = Commands.sequence(
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
@@ -153,8 +220,8 @@ public class RobotContainer {
       .until(() -> m_robotDrive.getPose().getX()<-120*ConversionFactors.kInchesToMeters)
     .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
-  // drive in and out
-  private final Command m_driveInOutAuto = Commands.sequence(
+  // drives out and in
+  private final Command m_driveOutInAuto = Commands.sequence(
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
     new RunCommand(() -> m_robotDrive.drive(AutoConstants.kInAutoSpeed, 0, 0, true, false),m_robotDrive)
       .withTimeout(3),
@@ -162,7 +229,7 @@ public class RobotContainer {
       .withTimeout(4)
     .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
-    // does nothing
+  // does nothing
   private final Command m_nothingAuto = Commands.sequence(
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive));
   SendableChooser<Command> m_chooser = new SendableChooser<>();
