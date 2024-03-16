@@ -150,7 +150,7 @@ public class RobotContainer {
       .until(() -> m_robotDrive.getPose().getX()<-80*ConversionFactors.kInchesToMeters),
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
     new RunCommand(() -> m_robotDrive.drive(-AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
-      .until(() -> m_robotDrive.getPose().getX()>70*ConversionFactors.kInchesToMeters)
+      .until(() -> m_robotDrive.getPose().getX()>55*ConversionFactors.kInchesToMeters)
     .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
 
   // shooter auto when middle to amp drives out
@@ -189,10 +189,10 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()<-120*ConversionFactors.kInchesToMeters),
+        .until(() -> m_robotDrive.getPose().getX()<-200*ConversionFactors.kInchesToMeters),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
-      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()<-60*ConversionFactors.kInchesToMeters)
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed/2,0,0,true,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()<-30*ConversionFactors.kInchesToMeters)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
 
   // shooter auto when far from amp drives out and in
@@ -204,13 +204,13 @@ public class RobotContainer {
         .withTimeout(1),
       new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop),
       new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,false,false),m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()<-120*ConversionFactors.kInchesToMeters),
+        .until(() -> m_robotDrive.getPose().getX()<-200*ConversionFactors.kInchesToMeters),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
-      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()<-60*ConversionFactors.kInchesToMeters),
+      new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed/2,0,0,true,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()<-30*ConversionFactors.kInchesToMeters),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
-      new RunCommand(() -> m_robotDrive.drive(-AutoConstants.kAutoSpeed,0,0,true,false), m_robotDrive)
-        .until(() -> m_robotDrive.getPose().getX()>40*ConversionFactors.kInchesToMeters)
+      new RunCommand(() -> m_robotDrive.drive(-AutoConstants.kAutoSpeed/2,0,0,true,false), m_robotDrive)
+        .until(() -> m_robotDrive.getPose().getX()>20*ConversionFactors.kInchesToMeters)
       .finallyDo((interrupted) -> {m_robotDrive.drive(0,0,0,false,false);}));
   
   // drives straight out
