@@ -132,7 +132,7 @@ public final class Constants {
     public static final int kSpeakerKickButtonId = Button.kLeftBumper.value;
     public static final int kSpeakerShootButtonId = Button.kRightBumper.value;
     
-    public static final int kClimbAscendAxisId = Axis.kLeftTrigger.value;
+    public static final int kClimbAscendButtonId = Button.kA.value;
     public static final int kClimbDescendAxisId = Axis.kRightTrigger.value;
   }
 

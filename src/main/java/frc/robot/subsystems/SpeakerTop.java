@@ -28,8 +28,8 @@ public class SpeakerTop extends SubsystemBase {
     // This method will be called once per scheduler run
   }
   
-  public void ampshoot() {
-    m_shootMotor1.set(SpeakerConstants.kAmpTopSpeed);
+  public void ampfinish() {
+    m_shootMotor1.set(-SpeakerConstants.kAmpTopSpeed);
     m_shootMotor2.set(SpeakerConstants.kAmpBottomSpeed);
   }
   

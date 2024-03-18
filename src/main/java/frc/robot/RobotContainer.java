@@ -38,15 +38,16 @@ public class RobotContainer {
   // The drivers' controllers
   private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
-
+  
   // smart dashboard queries
   double driveSpeed = 1;
-  boolean fieldRelative = true;
   double timeDelay = 0;
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Boolean> m_fieldrelativechooser = new SendableChooser<>();
   public void periodic(){
     SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData(m_fieldrelativechooser);
     SmartDashboard.putNumber("Drive Speed", driveSpeed);
-    SmartDashboard.putBoolean("Field Relative", fieldRelative);
     SmartDashboard.putNumber("Time Delay For Auto", timeDelay);
   }
   /**
@@ -63,7 +64,12 @@ public class RobotContainer {
     m_chooser.addOption("Middle to Amp Out In Auto", m_middleAmpOutInAuto);
     m_chooser.addOption("Far to Amp Out In Auto", m_farAmpOutInAuto);
     m_chooser.addOption("Shoot Only Auto", m_shootOnlyAuto);
+    m_fieldrelativechooser.setDefaultOption("Field Relative", true);
+    m_fieldrelativechooser.addOption("Robot Relative", false);
     SmartDashboard.putData(m_chooser);
+    SmartDashboard.putData(m_fieldrelativechooser);
+    SmartDashboard.putNumber("Drive Speed", driveSpeed);
+    SmartDashboard.putNumber("Time Delay For Auto", timeDelay);
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
@@ -75,7 +81,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(driveSpeed * m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(driveSpeed * m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(driveSpeed * m_driverController.getRightX(), OIConstants.kDriveDeadband),
-              fieldRelative, true),
+              m_fieldrelativechooser.getSelected(), true),
             m_robotDrive));
   }
 
@@ -93,7 +99,7 @@ public class RobotContainer {
         .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
 
     new JoystickButton(m_operatorController, OIConstants.kAmpShootButtonId)
-        .whileTrue(m_speakerTop.startEnd(m_speakerTop::ampshoot, m_speakerTop::stop));
+        .whileTrue(m_speakerTop.startEnd(m_speakerTop::ampfinish, m_speakerTop::stop));
 
     new JoystickButton(m_operatorController, OIConstants.kAmpKickButtonId)
         .whileTrue(m_speakerTop.startEnd(m_speakerTop::ampkick, m_speakerTop::stop));
@@ -107,7 +113,7 @@ public class RobotContainer {
     new JoystickButton(m_operatorController, OIConstants.kSpeakerIntakeButtonId)
         .whileTrue(m_speakerTop.startEnd(m_speakerTop::intake, m_speakerTop::stop));
 
-    new Trigger(() -> m_operatorController.getRawAxis(OIConstants.kClimbAscendAxisId) > 0.05)
+    new JoystickButton(m_operatorController, OIConstants.kClimbAscendButtonId)
         .whileTrue(m_climber.startEnd(m_climber::climb, m_climber::stop));
     
     new Trigger(() -> m_operatorController.getRawAxis(OIConstants.kClimbDescendAxisId) > 0.05)
@@ -253,7 +259,7 @@ public class RobotContainer {
   // does nothing
   private final Command m_nothingAuto = Commands.sequence(
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive));
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
