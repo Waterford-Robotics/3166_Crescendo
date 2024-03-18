@@ -39,16 +39,13 @@ public class RobotContainer {
   private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
   
-  // smart dashboard queries
-  double driveSpeed = 1;
   double timeDelay = 0;
+
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   SendableChooser<Boolean> m_fieldrelativechooser = new SendableChooser<>();
   public void periodic(){
     SmartDashboard.putData(m_chooser);
     SmartDashboard.putData(m_fieldrelativechooser);
-    SmartDashboard.putNumber("Drive Speed", driveSpeed);
-    SmartDashboard.putNumber("Time Delay For Auto", timeDelay);
   }
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -68,8 +65,6 @@ public class RobotContainer {
     m_fieldrelativechooser.addOption("Robot Relative", false);
     SmartDashboard.putData(m_chooser);
     SmartDashboard.putData(m_fieldrelativechooser);
-    SmartDashboard.putNumber("Drive Speed", driveSpeed);
-    SmartDashboard.putNumber("Time Delay For Auto", timeDelay);
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
@@ -78,9 +73,9 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(driveSpeed * m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(driveSpeed * m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(driveSpeed * m_driverController.getRightX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
               m_fieldrelativechooser.getSelected(), true),
             m_robotDrive));
   }
