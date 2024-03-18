@@ -39,8 +39,15 @@ public class RobotContainer {
   private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
 
+  // smart dashboard queries
+  double driveSpeed = 1;
+  boolean fieldRelative = true;
+  double timeDelay = 0;
   public void periodic(){
     SmartDashboard.putData(m_chooser);
+    SmartDashboard.putNumber("Drive Speed", driveSpeed);
+    SmartDashboard.putBoolean("Field Relative", fieldRelative);
+    SmartDashboard.putNumber("Time Delay For Auto", timeDelay);
   }
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -57,10 +64,6 @@ public class RobotContainer {
     m_chooser.addOption("Far to Amp Out In Auto", m_farAmpOutInAuto);
     m_chooser.addOption("Shoot Only Auto", m_shootOnlyAuto);
     SmartDashboard.putData(m_chooser);
-    double driveSpeed = 1;
-    SmartDashboard.putNumber("Drive Speed", driveSpeed);
-    boolean fieldRelative = true;
-    SmartDashboard.putBoolean("Field Relative", fieldRelative);
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
@@ -112,6 +115,8 @@ public class RobotContainer {
   }
   // shooter auto only shoots
   private final Command m_shootOnlyAuto = Commands.sequence(
+    new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false),m_robotDrive)
+      .withTimeout(timeDelay),
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
     new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
       .withTimeout(1),
@@ -122,6 +127,8 @@ public class RobotContainer {
   
   // shooter auto when close to amp drives out
   private final Command m_closeAmpOutAuto = Commands.sequence(
+      new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false),m_robotDrive)
+      .withTimeout(timeDelay),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
         .withTimeout(1),
@@ -137,6 +144,8 @@ public class RobotContainer {
   
   // shooter auto when close to amp drives out and in
   private final Command m_closeAmpOutInAuto = Commands.sequence(
+    new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false),m_robotDrive)
+      .withTimeout(timeDelay),
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
     new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
       .withTimeout(1),
@@ -155,6 +164,8 @@ public class RobotContainer {
 
   // shooter auto when middle to amp drives out
   private final Command m_middleAmpOutAuto = Commands.sequence(
+      new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false),m_robotDrive)
+      .withTimeout(timeDelay),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
       new RunCommand(() -> m_speakerTop.shoot(), m_speakerTop)
         .withTimeout(1),
@@ -167,6 +178,8 @@ public class RobotContainer {
   
   // shooter auto when middle to amp drives out and in
   private final Command m_middleAmpOutInAuto = Commands.sequence(
+      new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false),m_robotDrive)
+      .withTimeout(timeDelay),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
       new RunCommand(() -> m_speakerTop.shoot(), m_speakerTop)
         .withTimeout(1),
@@ -182,6 +195,8 @@ public class RobotContainer {
 
   // shooter auto when far from amp drives out
   private final Command m_farAmpOutAuto = Commands.sequence(
+      new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false),m_robotDrive)
+      .withTimeout(timeDelay),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
         .withTimeout(1),
@@ -197,6 +212,8 @@ public class RobotContainer {
 
   // shooter auto when far from amp drives out and in
   private final Command m_farAmpOutInAuto = Commands.sequence(
+      new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false),m_robotDrive)
+      .withTimeout(timeDelay),
       new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()),m_robotDrive),
       new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop)
         .withTimeout(1),
@@ -215,6 +232,8 @@ public class RobotContainer {
   
   // drives straight out
   private final Command m_driveOutAuto = Commands.sequence(
+    new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false),m_robotDrive)
+      .withTimeout(timeDelay),
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
     new RunCommand(() -> m_robotDrive.drive(AutoConstants.kAutoSpeed,0,0,true,false),m_robotDrive)
       .until(() -> m_robotDrive.getPose().getX()<-120*ConversionFactors.kInchesToMeters)
@@ -222,6 +241,8 @@ public class RobotContainer {
   
   // drives out and in
   private final Command m_driveOutInAuto = Commands.sequence(
+    new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false),m_robotDrive)
+      .withTimeout(timeDelay),
     new InstantCommand(() -> m_robotDrive.resetOdometry(new Pose2d()), m_robotDrive),
     new RunCommand(() -> m_robotDrive.drive(AutoConstants.kInAutoSpeed, 0, 0, true, false),m_robotDrive)
       .withTimeout(3),
