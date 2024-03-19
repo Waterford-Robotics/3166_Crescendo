@@ -39,13 +39,16 @@ public class RobotContainer {
   private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   private final XboxController m_operatorController = new XboxController(OIConstants.kOperatorControllerPort);
   
-  double timeDelay = 0;
+  double timeDelay;
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   SendableChooser<Boolean> m_fieldrelativechooser = new SendableChooser<>();
+  SendableChooser<Double> m_timeDelayChooser = new SendableChooser<>();
   public void periodic(){
     SmartDashboard.putData(m_chooser);
     SmartDashboard.putData(m_fieldrelativechooser);
+    SmartDashboard.putData(m_timeDelayChooser);
+    timeDelay = m_timeDelayChooser.getSelected();
   }
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -63,8 +66,14 @@ public class RobotContainer {
     m_chooser.addOption("Shoot Only Auto", m_shootOnlyAuto);
     m_fieldrelativechooser.setDefaultOption("Field Relative", true);
     m_fieldrelativechooser.addOption("Robot Relative", false);
+    m_timeDelayChooser.setDefaultOption("0 seconds", 0.0);
+    m_timeDelayChooser.addOption("4 seconds", 4.0);
+    m_timeDelayChooser.addOption("8 seconds", 8.0);
+    m_timeDelayChooser.addOption("10 seconds", 10.0);
+    timeDelay = m_timeDelayChooser.getSelected();
     SmartDashboard.putData(m_chooser);
     SmartDashboard.putData(m_fieldrelativechooser);
+    SmartDashboard.putData(m_timeDelayChooser);
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
