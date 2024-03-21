@@ -43,10 +43,12 @@ public class RobotContainer {
   SendableChooser<Boolean> m_fieldrelativechooser = new SendableChooser<>();
   SendableChooser<Double> m_timeDelayChooser = new SendableChooser<>();
 
+  private double m_autoTimeDelay;
+
   public void periodic() {
-    SmartDashboard.putData("Choose autonomous routine", m_autoChooser);
+    SmartDashboard.putData(m_autoChooser);
     SmartDashboard.putData(m_fieldrelativechooser);
-    SmartDashboard.putData("Choose auto time delay", m_timeDelayChooser);
+    SmartDashboard.putData(m_timeDelayChooser);
   }
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -73,6 +75,9 @@ public class RobotContainer {
     m_timeDelayChooser.addOption("8 seconds", 8.0);
     m_timeDelayChooser.addOption("10 seconds", 10.0);
     SmartDashboard.putData("Choose auto time delay", m_timeDelayChooser);
+    m_timeDelayChooser.onChange(timeDelay -> {
+      m_autoTimeDelay = timeDelay;
+    });
 
     SmartDashboard.putData("Zero the heading", m_robotDrive.runOnce(m_robotDrive::zeroHeading));
 
@@ -254,8 +259,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false), m_robotDrive)
-        .withTimeout(m_timeDelayChooser.getSelected())
-        .andThen(m_autoChooser.getSelected());
+    return Commands.sequence(
+      Commands.waitSeconds(m_autoTimeDelay),
+      m_autoChooser.getSelected()
+    );
   }
 }
