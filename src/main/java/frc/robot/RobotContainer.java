@@ -106,10 +106,10 @@ public class RobotContainer {
     new JoystickButton(m_driverController, OIConstants.kAmpKickButtonId)
         .whileTrue(m_speakerTop.startEnd(m_speakerTop::ampkick, m_speakerTop::stop));
 
-    new JoystickButton(m_driverController, OIConstants.kSpeakerShootButtonId)
+    new Trigger(() -> m_driverController.getRawAxis(OIConstants.kSpeakerShootButtonId)> 0.05)
         .whileTrue(m_speakerTop.startEnd(m_speakerTop::shoot, m_speakerTop::stop));
 
-    new JoystickButton(m_driverController, OIConstants.kSpeakerKickButtonId)
+    new Trigger (() -> m_driverController.getRawAxis(OIConstants.kSpeakerKickButtonId)>0.05)
         .whileTrue(m_speakerTop.startEnd(m_speakerTop::kick, m_speakerTop::stop));
     
     new JoystickButton(m_driverController, OIConstants.kSpeakerIntakeButtonId)
@@ -118,7 +118,7 @@ public class RobotContainer {
     new JoystickButton(m_driverController, OIConstants.kClimbAscendButtonId)
         .whileTrue(m_climber.startEnd(m_climber::climb, m_climber::stop));
     
-    new Trigger(() -> m_driverController.getRawAxis(OIConstants.kClimbDescendAxisId) > 0.05)
+    new JoystickButton(m_driverController, OIConstants.kClimbDescendAxisId)
         .whileTrue(m_climber.startEnd(m_climber::descend, m_climber::stop));   
   }
   // shooter auto only shoots
