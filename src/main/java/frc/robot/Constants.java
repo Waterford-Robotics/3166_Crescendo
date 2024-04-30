@@ -129,11 +129,11 @@ public final class Constants {
     public static final int kAmpShootButtonId = Button.kB.value;
     public static final int kAmpKickButtonId = Button.kY.value;
     public static final int kSpeakerIntakeButtonId = Button.kX.value;
-    public static final int kSpeakerKickButtonId = Button.kLeftBumper.value;
-    public static final int kSpeakerShootButtonId = Button.kRightBumper.value;
+    public static final int kSpeakerKickButtonId = Axis.kLeftTrigger.value;
+    public static final int kSpeakerShootButtonId = Axis.kRightTrigger.value;
     
     public static final int kClimbAscendButtonId = Button.kA.value;
-    public static final int kClimbDescendAxisId = Axis.kRightTrigger.value;
+    public static final int kClimbDescendAxisId = Button.kLeftBumper.value;
   }
 
   public static final class AutoConstants {
