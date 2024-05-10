@@ -5,14 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SpeakerTop;
 
-public class Shoot extends Command {
+public class Kick extends Command {
   private final SpeakerTop m_speakerTop = new SpeakerTop();
   Timer timer = new Timer();
-  public Shoot() {
+  public Kick() {
     addRequirements(m_speakerTop);
   }
 
@@ -27,7 +26,7 @@ public class Shoot extends Command {
   @Override
   public void execute() {
     if (timer.get()<1){
-      m_speakerTop.shoot();
+      m_speakerTop.kick();
     }
   }
 
