@@ -67,6 +67,8 @@ public class RobotContainer {
     m_chooser.addOption("Far to Amp Out In Auto", m_farAmpOutInAuto);
     m_chooser.addOption("Shoot Only Auto", m_shootOnlyAuto);
     m_chooser.addOption("Straight Line",m_robotDrive.getAuto("Straight Line"));
+    m_chooser.addOption("Straight Line",m_robotDrive.getAuto("Two Note Center to Right Wall"));
+    m_chooser.addOption("Straight Line",m_robotDrive.getAuto("Two Note Right Edge to Right Wall"));
     m_fieldrelativechooser.setDefaultOption("Field Relative", true);
     m_fieldrelativechooser.addOption("Robot Relative", false);
     m_timeDelayChooser.setDefaultOption("0 seconds", 0.0);
