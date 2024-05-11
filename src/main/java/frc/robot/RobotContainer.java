@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.*;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
@@ -34,6 +36,7 @@ public class RobotContainer {
   private final Drivetrain m_robotDrive = new Drivetrain();
   private final SpeakerTop m_speakerTop = new SpeakerTop();
   private final Climber m_climber = new Climber();
+  SendableChooser<Command> autoChooser;
 
   // The drivers' controllers
   private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);  
@@ -43,7 +46,8 @@ public class RobotContainer {
   SendableChooser<Boolean> m_fieldrelativechooser = new SendableChooser<>();
   SendableChooser<Double> m_timeDelayChooser = new SendableChooser<>();
   public void periodic(){
-    SmartDashboard.putData(m_chooser);
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("AutoMode", m_chooser);
     SmartDashboard.putData(m_fieldrelativechooser);
     SmartDashboard.putData(m_timeDelayChooser);
     timeDelay = m_timeDelayChooser.getSelected();
@@ -62,6 +66,7 @@ public class RobotContainer {
     m_chooser.addOption("Middle to Amp Out In Auto", m_middleAmpOutInAuto);
     m_chooser.addOption("Far to Amp Out In Auto", m_farAmpOutInAuto);
     m_chooser.addOption("Shoot Only Auto", m_shootOnlyAuto);
+    m_chooser.addOption("Straight Line",m_robotDrive.getAuto("Straight Line"));
     m_fieldrelativechooser.setDefaultOption("Field Relative", true);
     m_fieldrelativechooser.addOption("Robot Relative", false);
     m_timeDelayChooser.setDefaultOption("0 seconds", 0.0);
