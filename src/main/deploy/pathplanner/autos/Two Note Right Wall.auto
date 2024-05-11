@@ -32,7 +32,25 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Wall to Center"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Kick"
           }
         }
       ]
