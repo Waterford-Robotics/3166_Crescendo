@@ -4,17 +4,21 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class GroundIntake extends Command {
-  /** Creates a new GroundIntake. */
+  Timer timer = new Timer();
   public GroundIntake() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timer.start();
+    timer.reset();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -27,6 +31,6 @@ public class GroundIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return timer.get() > 0.5;
   }
 }
