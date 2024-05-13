@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -40,22 +41,21 @@ public class RobotContainer {
 
   // The drivers' controllers
   private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);  
-  double timeDelay;
 
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  SendableChooser<Boolean> m_fieldrelativechooser = new SendableChooser<>();
-  SendableChooser<Double> m_timeDelayChooser = new SendableChooser<>();
   public void periodic(){
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("AutoMode", m_chooser);
-    SmartDashboard.putData(m_fieldrelativechooser);
-    SmartDashboard.putData(m_timeDelayChooser);
-    timeDelay = m_timeDelayChooser.getSelected();
+    SmartDashboard.putData("Auto Mode", m_chooser);
   }
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    NamedCommands.registerCommand("Shoot",new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop).withTimeout(0.5));
+    NamedCommands.registerCommand("Kick",new RunCommand(() -> m_speakerTop.kick(),m_speakerTop).withTimeout(0.5));
+    NamedCommands.registerCommand("Intake",new RunCommand(() -> m_speakerTop.intake(),m_speakerTop).withTimeout(1));
+    NamedCommands.registerCommand("GroundIntake",new WaitCommand(1));
+    NamedCommands.registerCommand("Ground Intake",new WaitCommand(1));
+    autoChooser = AutoBuilder.buildAutoChooser();
     m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
     m_chooser.addOption("Drive Out Auto", m_driveOutAuto);
     m_chooser.addOption("Close to Amp Out Auto", m_closeAmpOutAuto);
@@ -72,16 +72,7 @@ public class RobotContainer {
     m_chooser.addOption("Three Note Center", m_robotDrive.getAuto("Three Note Center to Right Wall"));
     m_chooser.addOption("Four Note", m_robotDrive.getAuto("Four Note"));
     m_chooser.addOption("Circle", m_robotDrive.getAuto("Circle"));
-    m_fieldrelativechooser.setDefaultOption("Field Relative", true);
-    m_fieldrelativechooser.addOption("Robot Relative", false);
-    m_timeDelayChooser.setDefaultOption("0 seconds", 0.0);
-    m_timeDelayChooser.addOption("4 seconds", 4.0);
-    m_timeDelayChooser.addOption("8 seconds", 8.0);
-    m_timeDelayChooser.addOption("10 seconds", 10.0);
-    timeDelay = m_timeDelayChooser.getSelected();
     SmartDashboard.putData(m_chooser);
-    SmartDashboard.putData(m_fieldrelativechooser);
-    SmartDashboard.putData(m_timeDelayChooser);
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
@@ -93,7 +84,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
-              m_fieldrelativechooser.getSelected(), true),
+              true, true),
             m_robotDrive));
   }
 
@@ -131,6 +122,7 @@ public class RobotContainer {
     new JoystickButton(m_driverController, OIConstants.kClimbDescendAxisId)
         .whileTrue(m_climber.startEnd(m_climber::descend, m_climber::stop));   
   }
+  double timeDelay = 0;
   // shooter auto only shoots
   private final Command m_shootOnlyAuto = Commands.sequence(
     new RunCommand(() -> m_robotDrive.drive(0, 0, 0, true, false),m_robotDrive)
