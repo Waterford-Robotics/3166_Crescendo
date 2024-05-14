@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.XboxController;
@@ -35,6 +37,7 @@ public class RobotContainer {
   private final SpeakerTop m_speakerTop = new SpeakerTop();
   private final Climber m_climber = new Climber();
 
+
   // The drivers' controllers
   private final XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);  
   double timeDelay;
@@ -52,6 +55,12 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    NamedCommands.registerCommand("Shoot", new RunCommand(() -> m_speakerTop.shoot(), m_speakerTop).withTimeout(1));
+    NamedCommands.registerCommand("Kick", new RunCommand(() -> m_speakerTop.kick(), m_speakerTop).withTimeout(1));
+    NamedCommands.registerCommand("AmpKick", new RunCommand(() -> m_speakerTop.ampkick(), m_speakerTop).withTimeout(1));
+    NamedCommands.registerCommand("AmpFinish", new RunCommand(() -> m_speakerTop.ampfinish(), m_speakerTop).withTimeout(1));
+    NamedCommands.registerCommand("SpeakerStop", new InstantCommand(() -> m_speakerTop.stop(), m_speakerTop));
+
     m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
     m_chooser.addOption("Drive Out Auto", m_driveOutAuto);
     m_chooser.addOption("Close to Amp Out Auto", m_closeAmpOutAuto);
