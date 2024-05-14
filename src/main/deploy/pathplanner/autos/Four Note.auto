@@ -46,7 +46,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "GroundIntake"
+                        "name": "Ground Intake"
                       }
                     }
                   ]
@@ -116,7 +116,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "GroundIntake"
+                        "name": "Ground Intake"
                       }
                     }
                   ]
@@ -186,7 +186,7 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "GroundIntake"
+                        "name": "Ground Intake"
                       }
                     }
                   ]

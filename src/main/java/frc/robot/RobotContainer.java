@@ -53,7 +53,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot",new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop).withTimeout(0.5));
     NamedCommands.registerCommand("Kick",new RunCommand(() -> m_speakerTop.kick(),m_speakerTop).withTimeout(0.5));
     NamedCommands.registerCommand("Intake",new RunCommand(() -> m_speakerTop.intake(),m_speakerTop).withTimeout(1));
-    NamedCommands.registerCommand("GroundIntake",new WaitCommand(1));
     NamedCommands.registerCommand("Ground Intake",new WaitCommand(1));
     autoChooser = AutoBuilder.buildAutoChooser();
     m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);
