@@ -20,6 +20,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpeakerTop;
+import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -49,13 +50,14 @@ public class RobotContainer {
   public void periodic(){
     SmartDashboard.putData("Auto Mode", m_chooser);
   }
+  Shoot shoot = new Shoot(m_speakerTop);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    NamedCommands.registerCommand("Shoot",new RunCommand(() -> m_speakerTop.shoot(),m_speakerTop).withTimeout(0.5));
-    NamedCommands.registerCommand("Kick",new RunCommand(() -> m_speakerTop.kick(),m_speakerTop).withTimeout(0.5));
-    NamedCommands.registerCommand("Intake",new RunCommand(() -> m_speakerTop.intake(),m_speakerTop).withTimeout(1));
+    NamedCommands.registerCommand("Shoot",new Shoot(m_speakerTop));
+    NamedCommands.registerCommand("Kick",new Kick(m_speakerTop));
+    NamedCommands.registerCommand("Intake",new Intake(m_speakerTop));
     NamedCommands.registerCommand("Ground Intake",new WaitCommand(1));
     autoChooser = AutoBuilder.buildAutoChooser();
     m_chooser.setDefaultOption("Nothing Auto", m_nothingAuto);

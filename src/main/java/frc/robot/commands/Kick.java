@@ -11,7 +11,7 @@ import frc.robot.subsystems.SpeakerTop;
 public class Kick extends Command {
   private final SpeakerTop m_speakerTop = new SpeakerTop();
   Timer timer = new Timer();
-  public Kick() {
+  public Kick(SpeakerTop m_SpeakerTop) {
     addRequirements(m_speakerTop);
   }
 

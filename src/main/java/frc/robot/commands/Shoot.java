@@ -12,7 +12,7 @@ import frc.robot.subsystems.SpeakerTop;
 public class Shoot extends Command {
   private final SpeakerTop m_speakerTop = new SpeakerTop();
   Timer timer = new Timer();
-  public Shoot() {
+  public Shoot(SpeakerTop m_SpeakerTop) {
     addRequirements(m_speakerTop);
   }
 
