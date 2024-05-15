@@ -7,7 +7,11 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.DriveConstants;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,6 +48,13 @@ public class Drivetrain extends SubsystemBase {
       DriveConstants.kRearRightDrivingCanId,
       DriveConstants.kRearRightTurningCanId,
       DriveConstants.kBackRightChassisAngularOffset);
+  
+    private MAXSwerveModule[] modules = new MAXSwerveModule[]{
+      m_frontLeft,
+      m_frontRight,
+      m_rearLeft,
+      m_rearRight
+    };
 
   // The gyro sensor
   private final AHRS m_gyro = new AHRS();
@@ -66,11 +78,40 @@ public class Drivetrain extends SubsystemBase {
           m_rearLeft.getPosition(),
           m_rearRight.getPosition()
       });
-
+  private Rotation2d rawGyroRotation = new Rotation2d();
+  public static final PIDConstants translationalPID = new PIDConstants(0.824, 0.95, 0.15);
+  public static final PIDConstants rotationalPID = new PIDConstants(0.23, 0, 0);
+  public static final HolonomicPathFollowerConfig config = new HolonomicPathFollowerConfig(translationalPID, rotationalPID,
+    5.7, DriveConstants.kWheelBase/Math.sqrt(2), new ReplanningConfig());
   /** Creates a new Drivetrain. */
   public Drivetrain() {
+    AutoBuilder.configureHolonomic(
+      this::getPose,
+      this::setPose, 
+      () -> DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()), 
+      this::runVelocity, config, 
+      () -> {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+          return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+      },
+        this);
   }
-
+  
+  private SwerveDrivePoseEstimator m_poseEstimator = new SwerveDrivePoseEstimator(
+      DriveConstants.kDriveKinematics,
+      Rotation2d.fromDegrees(m_gyro.getYaw()),
+      new SwerveModulePosition[] {
+          m_frontLeft.getPosition(),
+          m_frontRight.getPosition(),
+          m_rearLeft.getPosition(),
+          m_rearRight.getPosition()
+      },
+      new Pose2d());
+  
+  
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
@@ -91,6 +132,10 @@ public class Drivetrain extends SubsystemBase {
    */
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
+  }
+
+  public void setPose(Pose2d pose) {
+    m_poseEstimator.resetPosition(rawGyroRotation, getModulePositions(), pose);
   }
 
   /**
@@ -220,7 +265,33 @@ public class Drivetrain extends SubsystemBase {
     m_rearLeft.setDesiredState(desiredStates[2]);
     m_rearRight.setDesiredState(desiredStates[3]);
   }
+  public SwerveModuleState[] getModuleStates(){
+    SwerveModuleState[] currentStates = new SwerveModuleState[modules.length];
+    for (int i = 0; i < modules.length; i++){
+      currentStates[i] = modules[i].getState();
+    }
+    return currentStates;
+      
+  }
+  public SwerveModulePosition[] getModulePositions(){
+    SwerveModulePosition[] positions = new SwerveModulePosition[4];
+    for (int i = 0; i <4; i++){
+      positions[i] = modules[i].getPosition();
+    }
+    return positions;
+  }
+  public void runVelocity(ChassisSpeeds speeds) {
+    //calculate module setpoints
+    ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
+    SwerveModuleState[] setpointStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(discreteSpeeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(setpointStates, DriveConstants.kMaxSpeedMetersPerSecond);
 
+    //send setpoints to modules
+    for (int i = 0; i < 4; i++) {
+      //the module returns the optimizes state, useful for logging
+      modules[i].setDesiredState(setpointStates[i]);
+    }
+  }
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
     m_frontLeft.resetEncoders();
@@ -228,7 +299,7 @@ public class Drivetrain extends SubsystemBase {
     m_frontRight.resetEncoders();
     m_rearRight.resetEncoders();
   }
-
+  
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     m_gyro.reset();
