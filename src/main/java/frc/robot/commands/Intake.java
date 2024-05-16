@@ -9,9 +9,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SpeakerTop;
 
 public class Intake extends Command {
-  private final SpeakerTop m_speakerTop = new SpeakerTop();
+  private final SpeakerTop m_speakerTop;
   Timer timer = new Timer();
-  public Intake(SpeakerTop m_SpeakerTop) {
+  public Intake(SpeakerTop speakerTop) {
+    m_speakerTop = speakerTop;
     addRequirements(m_speakerTop);
   }
 
@@ -32,11 +33,13 @@ public class Intake extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_speakerTop.kickStop();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get()>0.5;
+    return timer.get()>1;
   }
 }

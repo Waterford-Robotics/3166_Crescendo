@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SpeakerConstants;
@@ -51,6 +52,18 @@ public class SpeakerTop extends SubsystemBase {
   public void intake() {
     m_shootMotor1.set(SpeakerConstants.kReverseSpeed);
     m_kickerMotor.set(-SpeakerConstants.kKickerSpeed);
+  }
+  
+  public void manual(XboxController controller){
+    m_shootMotor1.set(0);
+    m_kickerMotor.set(0);
+  }
+  public void shootStop(){
+    m_shootMotor1.set(0);
+  }
+  public void kickStop(){
+    m_kickerMotor.set(0);
+    m_shootMotor1.set(0);
   }
 
   public void stop() {

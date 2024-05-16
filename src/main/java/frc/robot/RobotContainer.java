@@ -90,6 +90,7 @@ public class RobotContainer {
                 -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
               true, true),
             m_robotDrive));
+      m_speakerTop.setDefaultCommand(new RunCommand(() -> m_speakerTop.manual(m_driverController), m_speakerTop));
   }
 
   /**

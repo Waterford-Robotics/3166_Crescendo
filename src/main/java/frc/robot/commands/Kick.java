@@ -9,9 +9,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SpeakerTop;
 
 public class Kick extends Command {
-  private final SpeakerTop m_speakerTop = new SpeakerTop();
+  private final SpeakerTop m_speakerTop;
   Timer timer = new Timer();
-  public Kick(SpeakerTop m_SpeakerTop) {
+  public Kick(SpeakerTop speakerTop) {
+    m_speakerTop = speakerTop;
     addRequirements(m_speakerTop);
   }
 
@@ -33,7 +34,7 @@ public class Kick extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+    m_speakerTop.kickStop();
   }
 
   // Returns true when the command should end.
