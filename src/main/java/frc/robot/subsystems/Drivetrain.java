@@ -131,9 +131,8 @@ public class Drivetrain extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return m_poseEstimator.getEstimatedPosition();
   }
-
   public void setPose(Pose2d pose) {
     m_poseEstimator.resetPosition(rawGyroRotation, getModulePositions(), pose);
   }
