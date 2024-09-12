@@ -7,12 +7,14 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.Constants.OIConstants;
-import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.AmpTop;
+import frc.robot.subsystems.Drivetrain;
 
 
 /*
@@ -22,16 +24,22 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final AmpTop m_ampShooter = new AmpTop();
+
+  private XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  // Instance variables go here. This typically includes all robot systems and controllers.
   // The robot's subsystems
   private final Drivetrain m_robotDrive = new Drivetrain();
 
-  // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    configureBindings();
+  }
+
+  private void configureBindings() {
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
@@ -61,6 +69,18 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
+    new JoystickButton(m_driverController, OIConstants.kAmpShootButtonId)
+      .whileTrue(new RunCommand(
+        () -> m_ampShooter.release(), 
+        m_ampShooter).finallyDo((interrupted) -> {
+          m_ampShooter.stop();
+        }));
+    new JoystickButton(m_driverController, OIConstants.kAmpReverseButtonId)
+      .whileTrue(new RunCommand(
+        () -> m_ampShooter.reverse(),
+        m_ampShooter).finallyDo((interrupted) -> {
+          m_ampShooter.stop();
+        }));
   }
 
   /**

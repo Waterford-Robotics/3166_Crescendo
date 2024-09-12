@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.XboxController.Button;
+
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
@@ -159,6 +161,8 @@ public final class Constants {
     public static final int kSpeakerKickerMotorId = 7;
 
     public static final int kAmpShaftMotorId = 6;
+    public static final double kAmpShootingSpeed = -0.85;
+    public static final double kAmpReverseSpeed = 0.65;
 
     public static final int kClimberLeftMotorId = 4;
     public static final int kClimberRightMotorId = 5;

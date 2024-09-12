@@ -4,18 +4,26 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.MechanismConstants;
 
-/**
- * The scoring mechanism for the amp.
- */
 public class AmpTop extends SubsystemBase {
-
-  // Instance variables go here...
-
-  /** Creates a new AmpTop. */
+  private TalonFX m_shooters = new TalonFX(MechanismConstants.kAmpShaftMotorId);
+  /** Creates a new AmpShooterSubsystem. */
   public AmpTop() {
-    // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
+
+  }
+
+  public void release(){
+    m_shooters.set(MechanismConstants.kAmpShootingSpeed);
+  }
+  public void reverse(){
+    m_shooters.set(MechanismConstants.kAmpReverseSpeed);
+  }
+  public void stop(){
+    m_shooters.set(0);
   }
 
   @Override
