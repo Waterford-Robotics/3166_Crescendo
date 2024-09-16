@@ -8,6 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -22,16 +23,19 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final Climber m_climber = new Climber();
+  private XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
   // The robot's subsystems
   private final Drivetrain m_robotDrive = new Drivetrain();
-
-  // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    configureBindings();
+  }
+
+  private void configureBindings() {
     // Configure the button bindings
     configureButtonBindings();
     // Configure default commands
@@ -61,6 +65,18 @@ public class RobotContainer {
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
+    new JoystickButton(m_driverController, OIConstants.kClimbAscendAxisId)
+      .whileTrue(new RunCommand(
+          () -> m_climber.climb(), 
+          m_climber).finallyDo((interrupted) -> {
+            m_climber.stop();
+          }));
+    new JoystickButton(m_driverController, OIConstants.kClimbDescendAxisId)
+      .whileTrue(new RunCommand(
+          () -> m_climber.descend(), 
+          m_climber).finallyDo((interrupted) -> {
+            m_climber.stop();
+          }));
   }
 
   /**

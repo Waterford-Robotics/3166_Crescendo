@@ -4,22 +4,31 @@
 
 package frc.robot.subsystems;
 
+
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.MechanismConstants;;
 
-/**
- * The climbing mechanism.
- */
 public class Climber extends SubsystemBase {
+  private TalonFX m_climbMotor1 = new TalonFX(MechanismConstants.kClimberLeftMotorId);
+  private TalonFX m_climbMotor2 = new TalonFX(MechanismConstants.kClimberRightMotorId);
+  private Follower m_climbMotor2Follower = new Follower(MechanismConstants.kClimberLeftMotorId, true);
+  public Climber() {}
 
-  // Instance variables go here...
-
-  /** Creates a new Climber. */
-  public Climber() {
-    // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
+  public void climb(){
+    m_climbMotor1.set(MechanismConstants.kClimberSpeed);
+  }
+  public void descend(){
+    m_climbMotor1.set(-MechanismConstants.kClimberSpeed);
+  }
+  public void stop(){
+    m_climbMotor1.set(0);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    m_climbMotor2.setControl(m_climbMotor2Follower);  
   }
 }
