@@ -4,22 +4,37 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.MechanismConstants;
 
-/**
- * The scoring mechanism for the speaker.
- */
 public class SpeakerTop extends SubsystemBase {
+  private TalonFX m_speakerShooter1 = new TalonFX(MechanismConstants.kSpeakerShoot1MotorId);
+  private TalonFX m_speakerShooter2 = new TalonFX(MechanismConstants.kSpeakerShoot2MotorId);
+  private TalonFX m_speakerKicker = new TalonFX(MechanismConstants.kSpeakerKickerMotorId);
+  private Follower m_speakerShooter2Follower = new Follower(MechanismConstants.kSpeakerShoot1MotorId, true);
+  /** Creates a new AmpShooterSubsystem. */
+  public SpeakerTop() {}
 
-  // Instance variables go here...
-
-  /** Creates a new Shooter. */
-  public SpeakerTop() {
-    // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
+  public void shoot(){
+    m_speakerShooter1.set(MechanismConstants.kSpeakerMainShootSpeed);
+  }
+  public void kick(){
+    m_speakerKicker.set(MechanismConstants.kSpeakerKickerShootSpeed);
+  }
+  public void stop(){
+    m_speakerShooter1.set(0);
+    m_speakerKicker.set(0);
+  }
+  public void intake(){
+    m_speakerShooter1.set(MechanismConstants.kSpeakerMainIntakeSpeed);
+    m_speakerKicker.set(MechanismConstants.kSpeakerKickerIntakeSpeed);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    m_speakerShooter2.setControl(m_speakerShooter2Follower);
   }
 }
