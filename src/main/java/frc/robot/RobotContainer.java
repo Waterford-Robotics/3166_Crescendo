@@ -118,8 +118,11 @@ public class RobotContainer {
     new JoystickButton(m_driverController, OIConstants.kClimbAscendButtonId)
         .whileTrue(m_climber.startEnd(m_climber::climb, m_climber::stop));
     
-    new JoystickButton(m_driverController, OIConstants.kClimbDescendAxisId)
-        .whileTrue(m_climber.startEnd(m_climber::descend, m_climber::stop));   
+    new JoystickButton(m_driverController, OIConstants.kFeedShootButtonId)
+        .whileTrue(m_climber.startEnd(m_speakerTop::feedstart, m_speakerTop::stop));
+    
+    new JoystickButton(m_driverController, OIConstants.kFeedKickButtonId)
+        .whileTrue(m_climber.startEnd(m_speakerTop::feedfinish, m_speakerTop::stop));
   }
   // shooter auto only shoots
   private final Command m_shootOnlyAuto = Commands.sequence(

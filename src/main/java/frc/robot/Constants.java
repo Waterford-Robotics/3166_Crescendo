@@ -30,12 +30,12 @@ public final class Constants {
   public static final class DriveConstants {
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 5;
+    public static final double kMaxSpeedMetersPerSecond = 5.5; // prev (5.0)
     public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
-    public static final double kDirectionSlewRate = 1.2; // radians per second
+    public static final double kDirectionSlewRate = 5.0; // radians per second (prev 1.2)
     public static final double kMagnitudeSlewRate = 8; // percent per second (1 = 100%) was 1.8
-    public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
+    public static final double kRotationalSlewRate = 5.0; // percent per second (1 = 100%) (prev 2.0)
 
     // Chassis configuration
     public static final double kTrackWidth = Units.inchesToMeters(24.5);
@@ -124,7 +124,7 @@ public final class Constants {
     public static final int kOperatorControllerPort = 1;
     public static final double kDriveDeadband = 0.1;
 
-    public static final int kDriveSetXButtonId = Button.kRightBumper.value;
+    public static final int kDriveSetXButtonId = Button.kRightStick.value;
 
     public static final int kAmpShootButtonId = Button.kB.value;
     public static final int kAmpKickButtonId = Button.kY.value;
@@ -133,7 +133,9 @@ public final class Constants {
     public static final int kSpeakerShootButtonId = Axis.kRightTrigger.value;
     
     public static final int kClimbAscendButtonId = Button.kA.value;
-    public static final int kClimbDescendAxisId = Button.kLeftBumper.value;
+
+    public static final int kFeedShootButtonId = Button.kRightBumper.value;
+    public static final int kFeedKickButtonId = Button.kLeftBumper.value;
   }
 
   public static final class AutoConstants {
@@ -179,12 +181,14 @@ public final class Constants {
     public static final double kReverseSpeed = 0.7;
     public static final double kAmpTopSpeed = 0.25;
     public static final double kAmpBottomSpeed = 0.9;
+    public static final double kFeedTopSpeed = 0.9;
+    public static final double kFeedBottomSpeed = 0.75;
   }
 
   public static final class ClimberConstants {
     public static final int kMotorId = 4;
 
-    public static final double kMotorSpeed = 0.5;
+    public static final double kMotorSpeed = 0.8;
   }
 
 }

@@ -57,4 +57,15 @@ public class SpeakerTop extends SubsystemBase {
     m_shootMotor1.set(0);
     m_kickerMotor.set(0);
   }
+
+  public void feedstart(){
+    m_shootMotor1.set(-SpeakerConstants.kFeedTopSpeed);
+    m_shootMotor2.set(SpeakerConstants.kFeedBottomSpeed);
+  }
+  
+  public void feedfinish(){
+    m_shootMotor1.set(-SpeakerConstants.kFeedTopSpeed);
+    m_shootMotor2.set(SpeakerConstants.kFeedBottomSpeed);
+    m_kickerMotor.set(SpeakerConstants.kKickerSpeed);
+  }
 }
