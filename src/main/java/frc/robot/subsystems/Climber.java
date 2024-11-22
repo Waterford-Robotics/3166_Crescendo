@@ -4,22 +4,34 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ClimberConstants;
 
 /**
  * The climbing mechanism.
  */
 public class Climber extends SubsystemBase {
 
-  // Instance variables go here...
+  private Talon m_motor = new Talon(ClimberConstants.kMotorId);
 
   /** Creates a new Climber. */
   public Climber() {
-    // Run any final initializing steps here. Most instance variables should be instantiated in their declaration.
+
   }
 
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void periodic() {}
+
+  public void climb() {
+    m_motor.set(-ClimberConstants.kMotorSpeed);
+  }
+
+  public void descend() {
+    m_motor.set(ClimberConstants.kMotorSpeed);
+  }
+
+  public void stop() {
+    m_motor.set(0);
   }
 }
